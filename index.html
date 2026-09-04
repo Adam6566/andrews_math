@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A six-station math practice game for 3rd graders — one station per Eureka Math² Grade 3 module.">
+<meta name="description" content="Test-conditions math practice for 3rd graders: draw the array from the word problem, one attempt per step.">
 <meta name="color-scheme" content="light dark">
 <title>Unit Ranger</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,134 +12,78 @@
 </head>
 <body>
 <style>
-/* ============ TOKENS ============ */
+/* ================= TOKENS ================= */
 :root{
-  --paper:#EDF0E9;
-  --paper-2:#E2E7DD;
-  --card:#FBFCF8;
-  --ink:#16261E;
-  --muted:#5D6D62;
-  --line:#C9D3C6;
-  --pine:#1F5C46;
-  --pine-soft:#DCEBE1;
-  --brass:#B57F13;
-  --brass-soft:#F6E7C2;
-  --berry:#A8324A;
-  --berry-soft:#F7DEE2;
+  --paper:#EDF0E9; --paper-2:#E2E7DD; --card:#FBFCF8;
+  --ink:#16261E; --muted:#5D6D62; --line:#C9D3C6;
+  --pine:#1F5C46; --pine-soft:#DCEBE1;
+  --brass:#B57F13; --brass-soft:#F6E7C2;
+  --berry:#A8324A; --berry-soft:#F7DEE2;
   --sky:#2E6E8E;
+  --on-accent:#FBFCF8;
   --shadow:0 1px 0 rgba(22,38,30,.06), 0 8px 22px -14px rgba(22,38,30,.45);
   --r-s:6px; --r-m:12px; --r-l:20px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0D1512;
-    --paper-2:#121D18;
-    --card:#16231D;
-    --ink:#E6EFE8;
-    --muted:#93A79A;
-    --line:#2A3B33;
-    --pine:#57C598;
-    --pine-soft:#183A2C;
-    --brass:#E8B23F;
-    --brass-soft:#3A2E12;
-    --berry:#F0879C;
-    --berry-soft:#3B1B22;
+    --paper:#0D1512; --paper-2:#121D18; --card:#16231D;
+    --ink:#E6EFE8; --muted:#93A79A; --line:#2A3B33;
+    --pine:#57C598; --pine-soft:#183A2C;
+    --brass:#E8B23F; --brass-soft:#3A2E12;
+    --berry:#F0879C; --berry-soft:#3B1B22;
     --sky:#78BEDD;
+    --on-accent:#0D1512;
     --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -16px rgba(0,0,0,.9);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0D1512;
-  --paper-2:#121D18;
-  --card:#16231D;
-  --ink:#E6EFE8;
-  --muted:#93A79A;
-  --line:#2A3B33;
-  --pine:#57C598;
-  --pine-soft:#183A2C;
-  --brass:#E8B23F;
-  --brass-soft:#3A2E12;
-  --berry:#F0879C;
-  --berry-soft:#3B1B22;
+  --paper:#0D1512; --paper-2:#121D18; --card:#16231D;
+  --ink:#E6EFE8; --muted:#93A79A; --line:#2A3B33;
+  --pine:#57C598; --pine-soft:#183A2C;
+  --brass:#E8B23F; --brass-soft:#3A2E12;
+  --berry:#F0879C; --berry-soft:#3B1B22;
   --sky:#78BEDD;
+  --on-accent:#0D1512;
   --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -16px rgba(0,0,0,.9);
 }
 
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--paper);
-  color:var(--ink);
+  margin:0;background:var(--paper);color:var(--ink);
   font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;
-  font-size:17px;
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
 }
-h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;margin:0;text-wrap:balance;line-height:1.08}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;margin:0;text-wrap:balance;line-height:1.1}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
-.eyebrow{
-  font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
-}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 button{font:inherit;color:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:4px}
-
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px;border-radius:4px}
 .wrap{max-width:1060px;margin:0 auto;padding:20px 18px 72px}
 
-/* ============ HEADER ============ */
-.top{
-  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-  padding:14px 0 18px;border-bottom:2px solid var(--line);margin-bottom:26px;
-}
+/* ================= HEADER ================= */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0 18px;border-bottom:2px solid var(--line);margin-bottom:26px}
 .crest{width:46px;height:46px;flex:0 0 auto}
 .brand h1{font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.02em}
 .brand .sub{font-size:13px;color:var(--muted);margin-top:2px}
 .top .spacer{flex:1 1 auto}
-.tally{
-  display:flex;align-items:center;gap:8px;
-  background:var(--brass-soft);border:1px solid var(--brass);
-  color:var(--ink);border-radius:999px;padding:7px 14px;
-}
+.tally{display:flex;align-items:center;gap:8px;background:var(--brass-soft);border:1px solid var(--brass);border-radius:999px;padding:7px 14px}
 .tally .n{font-family:"IBM Plex Mono",monospace;font-weight:600;font-variant-numeric:tabular-nums}
-.ghost{
-  background:none;border:1px solid var(--line);border-radius:999px;
-  padding:7px 14px;font-size:14px;color:var(--muted);
-}
+.ghost{background:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--muted)}
 .ghost:hover{border-color:var(--muted);color:var(--ink)}
 
-/* ============ TRAIL MAP ============ */
-.mapwrap{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);
-  box-shadow:var(--shadow);padding:6px;margin-bottom:12px;overflow-x:auto;
-}
+/* ================= MAP ================= */
+.mapwrap{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--shadow);padding:6px;margin-bottom:12px;overflow-x:auto}
 .mapinner{position:relative;min-width:780px;height:250px}
 .mapinner svg.trail{position:absolute;inset:0;width:100%;height:100%}
-.node{
-  position:absolute;transform:translate(-50%,-50%);
-  width:60px;height:60px;border-radius:50%;
-  background:var(--card);border:3px solid var(--line);
-  display:grid;place-items:center;
-  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;
-  color:var(--muted);transition:transform .18s ease, border-color .18s;
-}
+.node{position:absolute;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:var(--card);border:3px solid var(--line);display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;color:var(--muted);transition:transform .18s ease,border-color .18s}
 .node:hover{transform:translate(-50%,-50%) scale(1.08);border-color:var(--pine);color:var(--pine)}
 .node.done{border-color:var(--brass);background:var(--brass-soft);color:var(--ink)}
 .node .pips{position:absolute;bottom:-16px;display:flex;gap:2px}
 .pip{width:7px;height:7px;border-radius:50%;background:var(--brass)}
-.maplabel{
-  position:absolute;transform:translate(-50%,0);white-space:nowrap;
-  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--muted);
-}
+.maplabel{position:absolute;transform:translate(-50%,0);white-space:nowrap;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
-/* ============ STATION CARDS ============ */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px;margin-top:22px}
-.station{
-  text-align:left;background:var(--card);border:1px solid var(--line);
-  border-left:5px solid var(--mod,var(--pine));
-  border-radius:var(--r-m);padding:16px 16px 14px;display:flex;flex-direction:column;gap:6px;
-  transition:transform .16s ease, box-shadow .16s ease;
-}
+.station{text-align:left;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--mod,var(--pine));border-radius:var(--r-m);padding:16px 16px 14px;display:flex;flex-direction:column;gap:6px;transition:transform .16s ease,box-shadow .16s ease}
 .station:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .station .num{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--mod,var(--pine));font-weight:600}
 .station h3{font-size:19px;font-weight:700}
@@ -149,86 +93,132 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stars .off{color:var(--line)}
 .best{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted)}
 
-/* ============ QUIZ ============ */
-.panel{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);
-  box-shadow:var(--shadow);padding:22px;max-width:720px;margin:0 auto;
-}
+/* ================= QUIZ SHELL ================= */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--shadow);padding:22px;max-width:760px;margin:0 auto}
 .qhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 .qhead .mod{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mod,var(--pine));font-weight:600}
 .qhead .spacer{flex:1}
 .streak{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--brass)}
-.track{display:flex;gap:5px;margin:10px 0 20px}
+.track{display:flex;gap:5px;margin:10px 0 18px}
 .tick{height:6px;flex:1;border-radius:99px;background:var(--line)}
-.tick.hit{background:var(--pine)}
-.tick.miss{background:var(--berry)}
-.tick.now{background:var(--brass)}
+.tick.hit{background:var(--pine)} .tick.miss{background:var(--berry)} .tick.now{background:var(--brass)}
 
-.qtext{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(20px,3.4vw,25px);font-weight:700;line-height:1.5;margin-bottom:4px}
-.qsub{font-size:14.5px;color:var(--muted);margin-bottom:14px}
-.figure{
-  display:flex;justify-content:center;padding:14px 6px;margin-bottom:18px;
-  background:var(--paper-2);border-radius:var(--r-m);overflow-x:auto;
+.context{font-family:"Bricolage Grotesque",sans-serif;font-size:clamp(19px,3.2vw,23px);font-weight:700;line-height:1.4;margin-bottom:16px}
+.stepbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.stepchip{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.stepchip.on{border-color:var(--brass);background:var(--brass-soft);color:var(--ink)}
+.stepchip.ok{border-color:var(--pine);background:var(--pine-soft);color:var(--ink)}
+
+.done-step{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;margin-bottom:12px;background:var(--paper-2);border-radius:var(--r-m);border-left:3px solid var(--pine)}
+.done-step.bad{border-left-color:var(--berry)}
+.done-step .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);flex:0 0 auto;padding-top:3px}
+.done-step .val{font-weight:600}
+.done-step .mini{margin-top:6px}
+
+.instruct{font-size:17px;font-weight:600;margin-bottom:4px}
+.hintline{font-size:14.5px;color:var(--muted);margin-bottom:14px}
+
+/* ================= ARRAY BUILDER ================= */
+.builder{background:var(--paper-2);border-radius:var(--r-m);padding:16px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.abgrid{
+  display:grid;gap:3px;touch-action:none;user-select:none;-webkit-user-select:none;
+  padding:6px;background:var(--card);border-radius:8px;border:1px solid var(--line);
 }
+.abgrid .cell{
+  width:var(--cs,28px);height:var(--cs,28px);padding:0;border-radius:5px;
+  border:1px dashed var(--line);background:transparent;display:grid;place-items:center;
+  transition:background .08s,border-color .08s;
+}
+.abgrid .cell span{width:60%;height:60%;border-radius:50%;background:transparent;transition:background .08s}
+.abgrid .cell.on{border:1px solid var(--pine);background:var(--pine-soft)}
+.abgrid .cell.on span{background:var(--pine)}
+.abgrid .cell.over{border:1px solid var(--berry);background:var(--berry-soft)}
+.abgrid .cell.over span{background:var(--berry)}
+.abgrid .cell.locked{border-style:solid;border-color:var(--brass);opacity:.9}
+.abgrid.ro .cell{cursor:default}
+
+.dims{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center}
+.dim{display:flex;align-items:center;gap:6px}
+.dim .cap{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dim .stepbtn{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-size:18px;line-height:1;display:grid;place-items:center}
+.dim .stepbtn:hover:not(:disabled){border-color:var(--pine)}
+.dim .stepbtn:disabled{opacity:.35;cursor:not-allowed}
+.dim .num{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:19px;min-width:26px;text-align:center;font-variant-numeric:tabular-nums}
+.dim.locked .num{color:var(--brass)}
+
+.readout{
+  font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;text-align:center;
+  padding:10px 18px;border-radius:var(--r-m);border:2px solid var(--line);background:var(--card);
+  font-variant-numeric:tabular-nums;min-width:min(100%,300px);
+}
+.readout .status{display:block;font-family:"Source Sans 3",sans-serif;font-size:14px;font-weight:400;margin-top:3px}
+.readout.good{border-color:var(--pine);background:var(--pine-soft)}
+.readout.under{border-color:var(--brass);background:var(--brass-soft)}
+.readout.over{border-color:var(--berry);background:var(--berry-soft)}
+
+/* ================= TAPE BUILDER ================= */
+.tape{width:100%;max-width:460px}
+.tape .brace{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);margin-bottom:2px}
+.tape .bar{display:flex;width:100%;height:52px;border:2px solid var(--ink);border-radius:4px;overflow:hidden}
+.tape .seg{flex:1;border-right:2px solid var(--ink);display:grid;place-items:center;background:var(--pine-soft);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px;color:var(--ink)}
+.tape .seg:last-child{border-right:none}
+.tape .seg.hit{background:var(--pine);color:var(--on-accent)}
+.tape .cap{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-top:6px}
+
+/* ================= DISKS ================= */
+.disks{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.dcol{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px;width:88px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.dcol .cap{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.08em;color:var(--muted)}
+.dcol .well{min-height:78px;display:flex;flex-wrap:wrap;gap:3px;justify-content:center;align-content:flex-start;width:100%}
+.disk{width:19px;height:19px;border-radius:50%}
+.dcol .ctl{display:flex;gap:4px}
+.dcol .ctl button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--paper-2);font-size:15px;line-height:1;display:grid;place-items:center}
+.dcol .ctl button:hover:not(:disabled){border-color:var(--pine)}
+.dcol .ctl button:disabled{opacity:.35;cursor:not-allowed}
+
+/* ================= FRACTION BAR ================= */
+.fbar{display:flex;width:100%;max-width:440px;height:56px;border:2px solid var(--ink);border-radius:4px;overflow:hidden}
+.fbar .fseg{flex:1;border-right:2px solid var(--ink);background:var(--card);transition:background .1s}
+.fbar .fseg:last-child{border-right:none}
+.fbar .fseg.sh{background:var(--pine)}
+.fbar.ro .fseg{cursor:default}
+
+/* ================= NUMBER LINE ================= */
+.nlwrap{width:100%;max-width:470px;touch-action:none}
+.nlwrap svg{width:100%;height:auto;display:block}
+.figure{display:flex;justify-content:center;padding:14px 6px;margin-bottom:16px;background:var(--paper-2);border-radius:var(--r-m);overflow-x:auto}
 .figure svg{max-width:100%;height:auto}
 
+/* ================= ANSWER INPUTS ================= */
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:520px){.choices{grid-template-columns:1fr}}
-.choice{
-  display:flex;align-items:center;gap:11px;text-align:left;
-  background:var(--paper-2);border:2px solid transparent;border-radius:var(--r-m);
-  padding:13px 15px;font-size:19px;font-weight:600;transition:border-color .12s, background .12s;
-}
+@media(max-width:540px){.choices{grid-template-columns:1fr}}
+.choice{display:flex;align-items:center;gap:11px;text-align:left;background:var(--paper-2);border:2px solid transparent;border-radius:var(--r-m);padding:13px 15px;font-size:19px;font-weight:600;transition:border-color .12s,background .12s}
 .choice:hover:not(:disabled){border-color:var(--pine)}
 .choice:disabled{cursor:default}
-.choice .key{
-  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
-  width:22px;height:22px;flex:0 0 auto;border-radius:5px;
-  background:var(--card);color:var(--muted);display:grid;place-items:center;
-}
+.choice .key{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;width:22px;height:22px;flex:0 0 auto;border-radius:5px;background:var(--card);color:var(--muted);display:grid;place-items:center}
 .choice.right{border-color:var(--pine);background:var(--pine-soft)}
 .choice.wrong{border-color:var(--berry);background:var(--berry-soft)}
 
-/* keypad */
 .entry{display:flex;flex-direction:column;align-items:center;gap:14px}
-.readout{
-  font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;
-  min-width:180px;text-align:center;padding:8px 16px;border-radius:var(--r-m);
-  background:var(--paper-2);border:2px solid var(--line);font-variant-numeric:tabular-nums;
-}
-.readout.right{border-color:var(--pine);background:var(--pine-soft)}
-.readout.wrong{border-color:var(--berry);background:var(--berry-soft)}
-.pad{display:grid;grid-template-columns:repeat(3,72px);gap:8px}
-.pad button{
-  height:52px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--paper-2);
-  font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;
-}
+.numout{font-family:"IBM Plex Mono",monospace;font-size:32px;font-weight:600;min-width:170px;text-align:center;padding:6px 16px;border-radius:var(--r-m);background:var(--paper-2);border:2px solid var(--line);font-variant-numeric:tabular-nums}
+.numout.right{border-color:var(--pine);background:var(--pine-soft)}
+.numout.wrong{border-color:var(--berry);background:var(--berry-soft)}
+.pad{display:grid;grid-template-columns:repeat(3,70px);gap:8px}
+.pad button{height:50px;border-radius:var(--r-m);border:1px solid var(--line);background:var(--paper-2);font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600}
 .pad button:hover{border-color:var(--pine)}
-.pad .go{background:var(--pine);color:var(--card);border-color:var(--pine);font-size:15px;font-family:"Source Sans 3",sans-serif}
-:root[data-theme="dark"] .pad .go,
-:root:not([data-theme="light"]) .pad .go{color:#0D1512}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .pad .go{color:#FBFCF8}}
+.pad button.go{background:var(--pine);color:var(--on-accent);border-color:var(--pine);font-family:"Source Sans 3",sans-serif;font-size:15px;font-weight:700}
 
-.feedback{
-  margin-top:18px;padding:14px 16px;border-radius:var(--r-m);
-  border-left:4px solid var(--pine);background:var(--pine-soft);font-size:15.5px;
-}
+.btn{background:var(--pine);color:var(--on-accent);border:none;border-radius:999px;padding:11px 24px;font-weight:700;font-size:16px}
+.btn:hover{filter:brightness(1.08)}
+.btn.wide{width:100%;max-width:300px}
+.rowend{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap}
+
+.feedback{margin-top:16px;padding:14px 16px;border-radius:var(--r-m);border-left:4px solid var(--pine);background:var(--pine-soft);font-size:15.5px}
 .feedback.no{border-left-color:var(--berry);background:var(--berry-soft)}
 .feedback strong{font-family:"Bricolage Grotesque",sans-serif;display:block;font-size:17px;margin-bottom:2px}
-.rowend{display:flex;gap:10px;margin-top:16px;align-items:center}
-.btn{
-  background:var(--pine);color:var(--card);border:none;border-radius:999px;
-  padding:11px 22px;font-weight:700;font-size:16px;
-}
-:root[data-theme="dark"] .btn,:root:not([data-theme="light"]) .btn{color:#0D1512}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn{color:#FBFCF8}}
-.btn:hover{filter:brightness(1.08)}
 
-/* ============ RESULTS ============ */
-.stamp{
-  width:150px;height:150px;margin:0 auto 6px;display:grid;place-items:center;
-  animation:thud .45s cubic-bezier(.2,1.4,.4,1) both;
-}
+/* ================= RESULTS ================= */
+.stamp{width:150px;height:150px;margin:0 auto 6px;display:grid;place-items:center;animation:thud .45s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes thud{from{transform:scale(2.1) rotate(-14deg);opacity:0}to{transform:scale(1) rotate(-6deg);opacity:1}}
 @media (prefers-reduced-motion: reduce){.stamp{animation:none;transform:rotate(-6deg)}}
 .bigstars{text-align:center;font-size:36px;letter-spacing:6px;color:var(--brass);margin:4px 0 2px}
@@ -237,14 +227,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 .note{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
 .note:last-child{border-bottom:none}
 .note .mk{color:var(--berry);font-weight:700;font-family:"IBM Plex Mono",monospace;flex:0 0 auto}
-.note .body{color:var(--muted);line-height:1.9}
+.note .body{color:var(--muted);line-height:1.85}
 .note .body b{color:var(--ink);font-weight:600}
 
-/* fraction glyph */
-.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1;vertical-align:-.45em;margin:0 1px;font-family:"IBM Plex Mono",monospace}
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1;vertical-align:-.45em;margin:0 2px;font-family:"IBM Plex Mono",monospace}
 .frac .n{font-size:.72em;padding:0 3px}
 .frac .d{font-size:.72em;padding:0 3px;border-top:2px solid currentColor;margin-top:2px}
-.hidden{display:none!important}
 footer{margin-top:36px;text-align:center;font-size:13px;color:var(--muted)}
 </style>
 
@@ -259,731 +247,975 @@ footer{margin-top:36px;text-align:center;font-size:13px;color:var(--muted)}
       <div class="sub">Grade 3 field expedition &middot; Eureka Math<sup>2</sup> Modules 1&ndash;6</div>
     </div>
     <div class="spacer"></div>
-    <div class="tally"><span aria-hidden="true">★</span><span class="n"><span id="totstars">0</span>/18</span> <span style="font-size:13px">stars earned</span></div>
+    <div class="tally"><span aria-hidden="true">&#9733;</span><span class="n"><span id="totstars">0</span>/18</span> <span style="font-size:13px">stars earned</span></div>
     <button class="ghost" id="resetbtn" type="button">Reset trail</button>
   </header>
-
   <main id="view"></main>
-
-  <footer>Six stations, one for each module of the year. Answer eight at a station to stamp its badge.</footer>
+  <footer>Test conditions: one attempt per step, no hints while you work. The drawing comes first.</footer>
 </div>
 
 <script>
 /* ============================================================
-   UNIT RANGER — Eureka Math² Grade 3 practice expedition
+   UNIT RANGER  —  Eureka Math² Grade 3
+   Build-then-solve: every question starts by constructing a
+   representation, then reasons from it.
    ============================================================ */
-const R = (a,b)=>a+Math.floor(Math.random()*(b-a+1));
-const pick = a => a[Math.floor(Math.random()*a.length)];
-const shuffle = a => { const c=[...a]; for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];} return c; };
-const uniq = a => [...new Set(a)];
-const frac = (n,d)=>`<span class="frac"><span class="n">${n}</span><span class="d">${d}</span></span>`;
-const gcd = (a,b)=>b?gcd(b,a%b):a;
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;};
+const frac=(n,d)=>`<span class="frac"><span class="n">${n}</span><span class="d">${d}</span></span>`;
+const plural=(n,s)=>n===1?s:s+'s';
 
-/* choice builder: correct value + distractor pool -> {choices, answer} */
-function mc(correct, pool){
-  const out = [correct];
-  for(const v of shuffle(pool)){
-    if(out.length>=4) break;
-    if(Number.isInteger(v) && v>=0 && !out.includes(v)) out.push(v);
-  }
-  let g=0;
-  while(out.length<4 && g++<80){ const j = correct + R(1,9)*pick([1,-1]); if(j>=0 && !out.includes(j)) out.push(j); }
-  while(out.length<4) out.push(Math.max(...out)+1);
-  const arr = shuffle(out);
-  return { choices: arr.map(String), answer: arr.indexOf(correct) };
+function mc(correct,pool){
+  const out=[correct];
+  for(const v of shuffle(pool)){ if(out.length>=4)break; if(Number.isInteger(v)&&v>=0&&!out.includes(v))out.push(v); }
+  let g=0; while(out.length<4&&g++<80){const j=correct+R(1,9)*pick([1,-1]); if(j>=0&&!out.includes(j))out.push(j);}
+  while(out.length<4)out.push(Math.max(...out)+1);
+  const arr=shuffle(out);
+  return {choices:arr.map(String),answer:arr.indexOf(correct)};
 }
-
-/* ============ SVG FIGURE HELPERS ============ */
-const P = 'var(--pine)', B = 'var(--brass)', S = 'var(--sky)', L = 'var(--line)', I = 'var(--ink)', M = 'var(--muted)', C='var(--card)';
-
-function dotArray(rows, cols, groupBy){
-  const cell=30, pad=14, gap = groupBy? 12:0;
-  const w = pad*2 + cols*cell, h = pad*2 + rows*cell + (groupBy?(rows-1)*0:0);
-  let s = `<svg viewBox="0 0 ${w} ${h}" width="${Math.min(w,420)}" role="img" aria-label="${rows} rows of ${cols} dots">`;
-  for(let r=0;r<rows;r++){
-    s += `<rect x="${pad-6}" y="${pad+r*cell-4}" width="${cols*cell+12}" height="${cell-2}" rx="10" fill="var(--pine-soft)"/>`;
-    for(let c=0;c<cols;c++){
-      s += `<circle cx="${pad+c*cell+cell/2-2}" cy="${pad+r*cell+cell/2-3}" r="8" fill="${P}"/>`;
-    }
-  }
-  return s+'</svg>';
-}
-
-function areaGrid(rows, cols, opts){
-  opts = opts||{};
-  const cell=26, pad=32;
-  const w = pad*2 + cols*cell, h = pad*2 + rows*cell;
-  let s = `<svg viewBox="0 0 ${w} ${h}" width="${Math.min(w,430)}" role="img" aria-label="rectangle ${rows} by ${cols} square units">`;
-  s += `<rect x="${pad}" y="${pad}" width="${cols*cell}" height="${rows*cell}" fill="var(--pine-soft)" stroke="${P}" stroke-width="2.5"/>`;
-  if(opts.split){
-    s += `<line x1="${pad+opts.split*cell}" y1="${pad}" x2="${pad+opts.split*cell}" y2="${pad+rows*cell}" stroke="${B}" stroke-width="3" stroke-dasharray="6 4"/>`;
-  }
-  if(!opts.noGrid){
-    for(let c=1;c<cols;c++) s+=`<line x1="${pad+c*cell}" y1="${pad}" x2="${pad+c*cell}" y2="${pad+rows*cell}" stroke="${P}" stroke-width="1" opacity=".45"/>`;
-    for(let r=1;r<rows;r++) s+=`<line x1="${pad}" y1="${pad+r*cell}" x2="${pad+cols*cell}" y2="${pad+r*cell}" stroke="${P}" stroke-width="1" opacity=".45"/>`;
-  }
-  const lab = (t,x,y)=>`<text x="${x}" y="${y}" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${t}</text>`;
-  if(opts.top!==undefined) s+=lab(opts.top, pad+cols*cell/2, pad-11);
-  if(opts.left!==undefined) s+=`<text x="${pad-11}" y="${pad+rows*cell/2+5}" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${opts.left}</text>`;
-  return s+'</svg>';
-}
-
-function rectFig(wLab, hLab, unit){
-  const w=300,h=170;
-  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="rectangle ${wLab} by ${hLab}">
-    <rect x="52" y="34" width="200" height="100" fill="var(--pine-soft)" stroke="${P}" stroke-width="3" rx="3"/>
-    <text x="152" y="24" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${wLab} ${unit}</text>
-    <text x="152" y="152" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${wLab} ${unit}</text>
-    <text x="34" y="89" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${hLab}</text>
-    <text x="270" y="89" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${hLab}</text>
-  </svg>`;
-}
-
-function numberLine(min,max,step,marks){
-  const w=460,h=useH(marks),pad=34;
-  function useH(m){ return m.some(x=>x.label)?96:76; }
-  const span=max-min, sx=v=>pad+(v-min)/span*(w-pad*2);
-  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="number line from ${min} to ${max}">`;
-  s+=`<line x1="${pad}" y1="48" x2="${w-pad}" y2="48" stroke="${I}" stroke-width="2.5"/>`;
-  s+=`<path d="M${w-pad} 48 l-9 -5 v10z" fill="${I}"/><path d="M${pad} 48 l9 -5 v10z" fill="${I}"/>`;
-  for(let v=min; v<=max+1e-9; v+=step){
-    const x=sx(v), major = Math.abs(v-Math.round(v))<1e-9;
-    s+=`<line x1="${x}" y1="${42}" x2="${x}" y2="${54}" stroke="${I}" stroke-width="${major?2.2:1.2}" opacity="${major?1:.55}"/>`;
-  }
-  marks.forEach(m=>{
-    const x=sx(m.v), col = m.color||B;
-    s+=`<circle cx="${x}" cy="48" r="7" fill="${col}" stroke="${C}" stroke-width="2"/>`;
-    if(m.top) s+=`<text x="${x}" y="26" fill="${col}" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="15" text-anchor="middle">${m.top}</text>`;
-    if(m.label) s+=`<text x="${x}" y="76" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${m.label}</text>`;
-  });
-  // end labels
-  s+=`<text x="${pad}" y="76" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${min}</text>`;
-  s+=`<text x="${w-pad}" y="76" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${max}</text>`;
-  return s+'</svg>';
-}
-
-function fracBar(d, shaded, label){
-  const w=Math.min(56*d+40, 440), bw=w-40, cell=bw/d, h=label?96:76;
-  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="bar split into ${d} equal parts, ${shaded} shaded">`;
-  for(let i=0;i<d;i++){
-    s+=`<rect x="${20+i*cell}" y="24" width="${cell}" height="44" fill="${i<shaded?P:'var(--card)'}" stroke="${I}" stroke-width="2"/>`;
-  }
-  if(label) s+=`<text x="${w/2}" y="88" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${label}</text>`;
-  return s+'</svg>';
-}
-
-function twoBars(d1,s1,d2,s2){
-  const w=440;
-  const bar=(y,d,sh,col)=>{ let o=''; const bw=360, cell=bw/d;
-    for(let i=0;i<d;i++) o+=`<rect x="${40+i*cell}" y="${y}" width="${cell}" height="38" fill="${i<sh?col:'var(--card)'}" stroke="${I}" stroke-width="2"/>`;
-    return o; };
-  return `<svg viewBox="0 0 ${w} 128" width="${w}" role="img" aria-label="two fraction bars">
-    <text x="24" y="30" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">A</text>
-    ${bar(10,d1,s1,P)}
-    <text x="24" y="98" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">B</text>
-    ${bar(78,d2,s2,S)}
-  </svg>`;
-}
-
-function clockFig(hh,mm){
-  const cx=90,cy=90,r=72;
-  let s=`<svg viewBox="0 0 180 180" width="200" role="img" aria-label="analog clock">`;
-  s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--card)" stroke="${I}" stroke-width="3"/>`;
-  for(let i=0;i<60;i++){
-    const a=(i/60)*Math.PI*2-Math.PI/2, big=i%5===0;
-    const r1=r-(big?11:5), r2=r-2;
-    s+=`<line x1="${cx+Math.cos(a)*r1}" y1="${cy+Math.sin(a)*r1}" x2="${cx+Math.cos(a)*r2}" y2="${cy+Math.sin(a)*r2}" stroke="${big?I:M}" stroke-width="${big?2.4:1}"/>`;
-  }
-  for(let n=1;n<=12;n++){
-    const a=(n/12)*Math.PI*2-Math.PI/2;
-    s+=`<text x="${cx+Math.cos(a)*(r-24)}" y="${cy+Math.sin(a)*(r-24)+5}" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${n}</text>`;
-  }
-  const ma=(mm/60)*Math.PI*2-Math.PI/2;
-  const ha=(((hh%12)+mm/60)/12)*Math.PI*2-Math.PI/2;
-  s+=`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(ha)*(r-34)}" y2="${cy+Math.sin(ha)*(r-34)}" stroke="${P}" stroke-width="6" stroke-linecap="round"/>`;
-  s+=`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(ma)*(r-16)}" y2="${cy+Math.sin(ma)*(r-16)}" stroke="${B}" stroke-width="4" stroke-linecap="round"/>`;
-  s+=`<circle cx="${cx}" cy="${cy}" r="5" fill="${I}"/>`;
-  return s+'</svg>';
-}
-
-function barGraph(cats, vals, unit, scale){
-  const w=430,h=210,pad=46,base=h-38, maxV=Math.max(...vals);
-  const top=Math.ceil(maxV/scale)*scale;
-  const bw=(w-pad-20)/cats.length;
-  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="bar graph">`;
-  for(let v=0; v<=top; v+=scale){
-    const y=base-(v/top)*(base-24);
-    s+=`<line x1="${pad}" y1="${y}" x2="${w-8}" y2="${y}" stroke="${L}" stroke-width="1"/>`;
-    s+=`<text x="${pad-8}" y="${y+4}" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="11" text-anchor="end">${v}</text>`;
-  }
-  cats.forEach((c,i)=>{
-    const bh=(vals[i]/top)*(base-24), x=pad+i*bw+bw*0.18;
-    s+=`<rect x="${x}" y="${base-bh}" width="${bw*0.64}" height="${bh}" fill="${i%2?S:P}" rx="2"/>`;
-    s+=`<text x="${x+bw*0.32}" y="${base+16}" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="11.5" text-anchor="middle">${c}</text>`;
-  });
-  s+=`<line x1="${pad}" y1="${base}" x2="${w-8}" y2="${base}" stroke="${I}" stroke-width="2"/>`;
-  s+=`<text x="${pad-8}" y="18" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="10.5" text-anchor="end">${unit}</text>`;
-  return s+'</svg>';
-}
-
-function shapeFig(kind){
-  const map = {
-    square:{d:'M40 30 H150 V140 H40 Z', name:'square'},
-    rect:{d:'M22 45 H168 V125 H22 Z', name:'rectangle'},
-    rhombus:{d:'M95 25 L165 85 L95 145 L25 85 Z', name:'rhombus'},
-    trapezoid:{d:'M45 35 H145 L175 135 H15 Z', name:'trapezoid'},
-    parallelogram:{d:'M45 40 H175 L135 130 H5 Z', name:'parallelogram'},
-    triangle:{d:'M95 25 L165 140 H25 Z', name:'triangle'},
-    pentagon:{d:'M95 22 L166 74 L139 141 H51 L24 74 Z', name:'pentagon'},
-    hexagon:{d:'M60 28 H130 L165 85 L130 142 H60 L25 85 Z', name:'hexagon'}
-  };
-  const o=map[kind];
-  return `<svg viewBox="0 0 190 170" width="150" role="img" aria-label="${o.name}"><path d="${o.d}" fill="var(--pine-soft)" stroke="${P}" stroke-width="3" stroke-linejoin="round"/></svg>`;
-}
-
-function perimFig(sides){ // array of {len} for an L or rectangle
-  const w=320,h=190;
-  if(sides.type==='rect'){
-    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="rectangle with labeled sides">
-      <rect x="55" y="40" width="210" height="105" fill="none" stroke="${P}" stroke-width="3.5"/>
-      <text x="160" y="30" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.a} ${sides.u}</text>
-      <text x="160" y="165" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.a} ${sides.u}</text>
-      <text x="34" y="98" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.b}</text>
-      <text x="288" y="98" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.b}</text>
-    </svg>`;
-  }
-  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="triangle with labeled sides">
-    <path d="M160 30 L275 155 H45 Z" fill="none" stroke="${P}" stroke-width="3.5" stroke-linejoin="round"/>
-    <text x="95" y="82" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.a}</text>
-    <text x="232" y="82" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.b}</text>
-    <text x="160" y="176" fill="${I}" font-family="IBM Plex Mono,monospace" font-size="15" text-anchor="middle">${sides.c} ${sides.u}</text>
-  </svg>`;
-}
-
-function pvDisks(th,h,t,o){
-  const cols=[['thousands',th,'var(--berry)'],['hundreds',h,P],['tens',t,S],['ones',o,B]];
-  const w=440; let s=`<svg viewBox="0 0 ${w} 140" width="${w}" role="img" aria-label="place value chart">`;
-  cols.forEach((c,i)=>{
-    const x=14+i*107;
-    s+=`<rect x="${x}" y="10" width="98" height="118" rx="8" fill="var(--card)" stroke="${L}" stroke-width="1.5"/>`;
-    s+=`<text x="${x+49}" y="28" fill="${M}" font-family="IBM Plex Mono,monospace" font-size="10.5" text-anchor="middle">${c[0].toUpperCase()}</text>`;
-    for(let k=0;k<c[1];k++){
-      const cx=x+22+(k%3)*27, cy=48+Math.floor(k/3)*26;
-      s+=`<circle cx="${cx}" cy="${cy}" r="11" fill="${c[2]}" opacity=".9"/>`;
-    }
-  });
-  return s+'</svg>';
+function mcText(correct,wrongs){
+  const arr=shuffle([correct,...wrongs]);
+  return {choices:arr,answer:arr.indexOf(correct)};
 }
 
 /* ============================================================
-   QUESTION GENERATORS — one bank per module
+   STEP KINDS
+   Each step object describes one thing the student does.
+     {kind:'array',  need:{rows,cols,total}, lock:{rows|cols}, max:{r,c}}
+     {kind:'tape',   total, need:{parts}, showPart:bool, partLabel}
+     {kind:'disks',  need:{value}}
+     {kind:'frac',   need:{d,n}}
+     {kind:'nline',  min,max,step, need:{v}}
+     {kind:'choice', choices, answer}
+     {kind:'input',  ans}
+   Every step carries: instruct, hint, recap (how it shows once done)
    ============================================================ */
 
-/* ---- MODULE 1: units of 2,3,4,5,10 ---- */
-const M1 = [
-  ()=>{ const r=R(2,9), c=pick([2,3,4,5,10]); const p=r*c;
-    return {q:`How many dots in all?`, sub:`${r} rows of ${c}`, fig:dotArray(r,Math.min(c,10)),
-      ...mc(p,[r+c, p+c, p-c, p+r]),
-      why:`${r} rows of ${c} is ${r} × ${c} = ${p}. Skip-count by ${c}: ${Array.from({length:Math.min(r,5)},(_,i)=>c*(i+1)).join(', ')}${r>5?', …':''}`}; },
-  ()=>{ const c=pick([2,3,4,5,10]), q=R(3,9), p=c*q;
-    return {q:`${p} ÷ ${c} = ?`, sub:`How many groups of ${c} are in ${p}?`, fig:null,
-      ...mc(q,[q+1,q-1,c,p-c]),
-      why:`Think: ${c} × ___ = ${p}. Since ${c} × ${q} = ${p}, the answer is ${q}.`}; },
-  ()=>{ const a=pick([2,3,4,5,10]), b=R(3,9);
-    return {q:`${a} × ${b} = ${b} × ___`, sub:`Multiplication can be flipped — the total stays the same.`, fig:dotArray(Math.min(a,8),Math.min(b,10)),
-      ...mc(a,[b,a*b,a+b,a+1]),
-      why:`Turning an array on its side doesn't change how many dots there are. ${a} × ${b} = ${b} × ${a} = ${a*b}.`}; },
-  ()=>{ const g=pick([2,3,4,5]), each=R(3,9), tot=g*each;
-    const thing=pick([['stickers','folders'],['marbles','jars'],['crackers','plates'],['pencils','cups'],['apples','baskets']]);
-    return {q:`${tot} ${thing[0]} are shared equally among ${g} ${thing[1]}. How many in each?`, sub:`Division: partition into equal groups`, fig:null,
-      ...mc(each,[g,tot-g,each+1,each+g]),
-      why:`${tot} split into ${g} equal groups: ${tot} ÷ ${g} = ${each}. Each ${thing[1].slice(0,-1)} gets ${each}.`}; },
-  ()=>{ const each=R(2,6), g=pick([2,3,4,5,10]), tot=g*each;
-    return {q:`${tot} counters are put into groups of ${each}. How many groups?`, sub:`Division: measure out equal groups`, fig:null,
-      ...mc(g,[each,tot-each,g+1,g+each]),
-      why:`Count by ${each} until you reach ${tot}. That takes ${g} groups, so ${tot} ÷ ${each} = ${g}.`}; },
-  ()=>{ const a=pick([3,4,5]), b=R(4,9), p=a*b;
-    return {q:`${a} × ___ = ${p}`, sub:`Find the unknown factor.`, fig:null, type:'input', ans:b,
-      why:`${a} × ${b} = ${p}, so the missing factor is ${b}.`}; }
-];
+/* ---------- shared state for the live builder ---------- */
+let B = null;   // current builder state
 
-/* ---- MODULE 2: place value + metric measurement ---- */
-const M2 = [
-  ()=>{ const n=R(1,9)*1000+R(0,9)*100+R(0,9)*10+R(0,9);
-    const s=String(n), pos=R(0,3), digit=+s[pos];
-    const val=digit*Math.pow(10,3-pos);
-    const names=['thousands','hundreds','tens','ones'];
-    return {q:`What is the value of the ${digit} in ${n.toLocaleString()}?`, sub:`It sits in the ${names[pos]} place.`, fig:null,
-      ...mc(val,[digit, val*10, val/10, digit*10].map(x=>Math.round(x))),
-      why:`The ${digit} is in the ${names[pos]} place, so its value is ${digit} × ${Math.pow(10,3-pos)} = ${val}.`}; },
-  ()=>{ const n=R(11,89)*10+R(1,9); const to=10;
-    const ans=Math.round(n/10)*10, lo=Math.floor(n/10)*10, hi=lo+10;
-    return {q:`Round ${n} to the nearest ten.`, sub:`Which ten is ${n} closer to?`,
-      fig:numberLine(lo,hi,1,[{v:n,top:String(n)}]),
-      ...mc(ans,[lo===ans?hi:lo, n, ans+10, ans-10]),
-      why:`${n} sits between ${lo} and ${hi}. It is closer to ${ans}, so ${n} rounds to ${ans}.`}; },
-  ()=>{ const n=R(2,8)*100+R(1,9)*10+R(0,9);
-    const lo=Math.floor(n/100)*100, hi=lo+100, ans=(n-lo>=50)?hi:lo;
-    return {q:`Round ${n} to the nearest hundred.`, sub:`Look at the tens digit.`,
-      fig:numberLine(lo,hi,10,[{v:n,top:String(n)}]),
-      ...mc(ans,[ans===lo?hi:lo, n, ans+100, ans-100]),
-      why:`${n} is between ${lo} and ${hi}. The halfway point is ${lo+50}, so ${n} rounds to ${ans}.`}; },
-  ()=>{ const k=R(2,9); const kind=pick([['kilograms','grams',1000],['liters','milliliters',1000],['kilometers','meters',1000],['meters','centimeters',100]]);
-    const ans=k*kind[2];
-    return {q:`${k} ${kind[0]} = ___ ${kind[1]}`, sub:`Metric units step by tens.`, fig:null,
-      ...mc(ans,[k*kind[2]/10, k*kind[2]*10, k+kind[2], kind[2]].map(x=>Math.round(x))),
-      why:`1 ${kind[0].slice(0,-1)} = ${kind[2]} ${kind[1]}, so ${k} × ${kind[2]} = ${ans} ${kind[1]}.`}; },
-  ()=>{ const a=R(2,7)*100+R(10,99), b=R(1,3)*100+R(10,99); const s=a+b;
-    return {q:`${a} + ${b} = ?`, sub:`Add hundreds, then tens, then ones.`, fig:null, type:'input', ans:s,
-      why:`${Math.floor(a/100)*100} + ${Math.floor(b/100)*100} = ${Math.floor(a/100)*100+Math.floor(b/100)*100}, then add the rest: ${a%100} + ${b%100} = ${a%100+b%100}. Total ${s}.`}; },
-  ()=>{ const th=R(1,6),h=R(1,8),t=R(1,8),o=R(1,8); const n=th*1000+h*100+t*10+o;
-    return {q:`What number is shown?`, sub:`Each disk is worth its place.`, fig:pvDisks(th,h,t,o),
-      ...mc(n,[th*1000+h*100+o*10+t, n+100, n-10, th*100+h*10+t]),
-      why:`${th} thousand + ${h} hundreds + ${t} tens + ${o} ones = ${n.toLocaleString()}.`}; },
-  ()=>{ const a=R(4,9)*100+R(20,90), b=R(1,3)*100+R(10,60); const d=a-b;
-    return {q:`${a} − ${b} = ?`, sub:`Subtract in parts, or count up.`, fig:null, type:'input', ans:d,
-      why:`Take away ${Math.floor(b/100)*100} first: ${a} − ${Math.floor(b/100)*100} = ${a-Math.floor(b/100)*100}. Then take away ${b%100}: ${d}.`}; }
-];
-
-/* ---- MODULE 3: units of 0,1,6,7,8,9 and multiples of 10 ---- */
-const M3 = [
-  ()=>{ const a=pick([6,7,8,9]), b=R(3,9), p=a*b;
-    return {q:`${a} × ${b} = ?`, sub:`A harder fact — break it apart if you need to.`, fig:null,
-      ...mc(p,[p+a,p-a,p+b,a*b+10]),
-      why:`Break it up: ${a} × ${b} = (5 × ${b}) + (${a-5} × ${b}) = ${5*b} + ${(a-5)*b} = ${p}.`}; },
-  ()=>{ const b=R(2,9), p=9*b;
-    return {q:`9 × ${b} = ?`, sub:`Nines have a pattern.`, fig:null,
-      ...mc(p,[p+9,p-9,10*b,9+b]),
-      why:`Think 10 × ${b} = ${10*b}, then take away one group of ${b}: ${10*b} − ${b} = ${p}. (And ${Math.floor(p/10)} + ${p%10} = 9!)`}; },
-  ()=>{ const b=R(2,9), z=pick([0,1]);
-    const p=z*b;
-    return {q:`${b} × ${z} = ?`, sub:z===0?`Groups of nothing.`:`One group of something.`, fig:null,
-      ...mc(p,[b,z,b+z,b-z]),
-      why:z===0?`${b} groups of 0 is still 0. Any number times 0 is 0.`:`${b} groups of 1 is just ${b}. Any number times 1 stays itself.`}; },
-  ()=>{ const a=R(2,9), t=pick([20,30,40,50,60,70,80,90]); const p=a*t;
-    return {q:`${a} × ${t} = ?`, sub:`Multiples of ten.`, fig:null,
-      ...mc(p,[p*10,p/10,a*t/10,p+t].map(x=>Math.round(x))),
-      why:`${a} × ${t/10} = ${a*t/10}, so ${a} × ${t} is ${a*t/10} tens = ${p}.`}; },
-  ()=>{ const b=R(4,9), p=7*b;
-    return {q:`${p} ÷ 7 = ?`, sub:`Divide with a unit of 7.`, fig:null,
-      ...mc(b,[b+1,b-1,7,p-7]),
-      why:`7 × ${b} = ${p}, so ${p} ÷ 7 = ${b}.`}; },
-  ()=>{ const a=pick([6,7,8]), b=R(4,9), split=pick([2,3,4]).valueOf();
-    const s1=Math.min(split,b-1), s2=b-s1;
-    return {q:`${a} × ${b} = (${a} × ${s1}) + (${a} × ___)`, sub:`Break apart the larger factor.`, fig:areaGrid(a,b,{split:s1,top:b,left:a}),
-      ...mc(s2,[s1,b,a,s2+1]),
-      why:`${b} splits into ${s1} and ${s2}. So ${a} × ${b} = ${a*s1} + ${a*s2} = ${a*b}.`}; },
-  ()=>{ const a=pick([6,7,8,9]), b=R(4,9), p=a*b;
-    return {q:`___ × ${b} = ${p}`, sub:`Find the unknown factor.`, fig:null, type:'input', ans:a,
-      why:`Count by ${b}s until you hit ${p} — that's ${a} groups. ${a} × ${b} = ${p}.`}; }
-];
-
-/* ---- MODULE 4: multiplication and area ---- */
-const M4 = [
-  ()=>{ const r=R(2,7), c=R(3,9);
-    return {q:`What is the area of this rectangle?`, sub:`Count the square units.`, fig:areaGrid(r,c,{}),
-      ...mc(r*c,[2*(r+c), r+c, r*c+c, r*c-r]), unit:'square units',
-      why:`${r} rows of ${c} squares: ${r} × ${c} = ${r*c} square units.`}; },
-  ()=>{ const a=R(3,9), b=R(4,9);
-    return {q:`A rectangle is ${a} cm by ${b} cm. What is its area?`, sub:`Area = length × width`, fig:rectFig(b,a+' cm','cm'),
-      ...mc(a*b,[2*(a+b), a+b, a*b+a, a*b-b]), unit:'square cm',
-      why:`Area = ${a} × ${b} = ${a*b} square centimeters. (Perimeter would be ${2*(a+b)} cm — different question!)`}; },
-  ()=>{ const a=R(3,8), area=a*R(3,9); const b=area/a;
-    return {q:`A rectangle has an area of ${area} square units. One side is ${a} units. How long is the other side?`, sub:`Work backward from the area.`, fig:null,
-      ...mc(b,[area-a, b+1, a, b*2]),
-      why:`${a} × ___ = ${area}. Since ${a} × ${b} = ${area}, the other side is ${b} units.`}; },
-  ()=>{ const r=R(3,6), c1=R(2,4), c2=R(3,5);
-    return {q:`What is the total area of the whole rectangle?`, sub:`The dashed line splits it into two smaller rectangles.`, fig:areaGrid(r,c1+c2,{split:c1,top:c1+' + '+c2,left:r}),
-      ...mc(r*(c1+c2),[r*c1, r*c2, r+c1+c2, r*(c1+c2)+r]), unit:'square units',
-      why:`${r} × ${c1} = ${r*c1} and ${r} × ${c2} = ${r*c2}. Together: ${r*c1} + ${r*c2} = ${r*(c1+c2)} square units.`}; },
-  ()=>{ const a=R(4,9), b=R(3,8);
-    return {q:`A garden bed is ${a} feet long and ${b} feet wide. How many square feet of soil cover it?`, sub:`Area problem in the real world.`, fig:null, type:'input', ans:a*b,
-      why:`Area = ${a} × ${b} = ${a*b} square feet.`}; },
-  ()=>{ const s=R(3,8);
-    return {q:`A square tile is ${s} inches on every side. What is its area?`, sub:`All four sides are equal.`, fig:areaGrid(s,s,{top:s,left:s}),
-      ...mc(s*s,[4*s, 2*s, s+s, s*s+s]), unit:'square inches',
-      why:`A square's sides are equal, so area = ${s} × ${s} = ${s*s} square inches.`}; }
-];
-
-/* ---- MODULE 5: fractions as numbers ---- */
-const M5 = [
-  ()=>{ const d=pick([2,3,4,6,8]), n=R(1,d-1);
-    return {q:`What fraction of the bar is shaded?`, sub:`${d} equal parts.`, fig:fracBar(d,n),
-      ...mcFrac([n,d],[[d-n,d],[n,d+1],[n+1,d],[d,n]]),
-      why:`The whole is cut into ${d} equal parts and ${n} ${n===1?'is':'are'} shaded, so it is ${n}/${d}.`}; },
-  ()=>{ const d=pick([2,3,4,6,8]), n=R(1,d-1);
-    const marks=[{v:n/d,top:'?'}];
-    return {q:`Which fraction is the point on?`, sub:`The number line from 0 to 1 is split into ${d} equal parts.`, fig:numberLine(0,1,1/d,marks),
-      ...mcFrac([n,d],[[n+1,d],[d,n],[n,d+1],[d-n,d]]),
-      why:`From 0, count ${n} jump${n===1?'':'s'} of 1/${d}. That lands on ${n}/${d}.`}; },
-  ()=>{ let d1=pick([2,3,4,6,8]), d2=pick([2,3,4,6,8]); while(d2===d1) d2=pick([2,3,4,6,8]);
-    const n=1;
-    const bigger = d1<d2 ? [n,d1] : [n,d2];
-    return {q:`Which is greater: ${frac(n,d1)} or ${frac(n,d2)}?`, sub:`Same numerator — compare the size of the pieces.`, fig:twoBars(d1,n,d2,n),
-      ...mcFrac(bigger,[[n,d1===bigger[1]?d2:d1]],true),
-      why:`Cutting a whole into ${Math.max(d1,d2)} parts makes smaller pieces than cutting it into ${Math.min(d1,d2)}. So ${bigger[0]}/${bigger[1]} is greater.`}; },
-  ()=>{ const d=pick([3,4,6,8]); let a=R(1,d-1), b=R(1,d-1); while(b===a) b=R(1,d-1);
-    const bigger=[Math.max(a,b),d];
-    return {q:`Which is greater: ${frac(a,d)} or ${frac(b,d)}?`, sub:`Same denominator — the pieces are the same size.`, fig:twoBars(d,a,d,b),
-      ...mcFrac(bigger,[[Math.min(a,b),d]],true),
-      why:`The pieces are the same size, so more pieces means more. ${Math.max(a,b)}/${d} is greater.`}; },
-  ()=>{ const d=pick([2,3,4]), m=pick([2,3]); const d2=d*m;
-    return {q:`${frac(1,d)} = ___`, sub:`Find the equivalent fraction.`, fig:twoBars(d,1,d2,m),
-      ...mcFrac([m,d2],[[1,d2],[m,d],[d2,m],[m+1,d2]]),
-      why:`Splitting each of the ${d} parts into ${m} makes ${d2} parts, and the shaded piece becomes ${m} of them: 1/${d} = ${m}/${d2}.`}; },
-  ()=>{ const d=pick([2,3,4,5,6,8]);
-    return {q:`${frac(d,d)} = ?`, sub:`All of the parts.`, fig:fracBar(d,d),
-      ...mc(1,[d,0,2,d-1]),
-      why:`${d} parts out of ${d} parts is the whole thing: ${d}/${d} = 1.`}; },
-  ()=>{ const d=pick([2,3,4,6,8]), n=R(1,d-1);
-    return {q:`How many ${frac(1,d)} pieces make ${frac(n,d)}?`, sub:`Count the unit fractions.`, fig:fracBar(d,n),
-      ...mc(n,[d,d-n,n+1,n*d]),
-      why:`${n}/${d} means ${n} copies of the unit fraction 1/${d}.`}; }
-];
-
-function mcFrac(correct, pool, exactPool){
-  const key = p=>p.join('/');
-  let opts=[correct, ...shuffle(pool)];
-  const seen=new Set(); const out=[];
-  for(const o of opts){ if(!seen.has(key(o))){ seen.add(key(o)); out.push(o); } }
-  const want = exactPool? Math.min(out.length,2) : 4;
-  let final=out.slice(0,want);
-  if(!exactPool){ let guard=0; while(final.length<4 && guard++<40){ const c=[R(1,8),R(2,9)]; if(c[0]<c[1] && !seen.has(key(c))){seen.add(key(c)); final.push(c);} } }
-  const arr=shuffle(final);
-  return { choices: arr.map(p=>frac(p[0],p[1])), answer: arr.findIndex(p=>key(p)===key(correct)) };
+/* ================= ARRAY BUILDER ================= */
+function arrayBuilderHTML(st){
+  const maxR=st.max?.r??10, maxC=st.max?.c??10;
+  const cs = maxC>10 ? 24 : 28;
+  let cells='';
+  for(let r=0;r<maxR;r++) for(let c=0;c<maxC;c++)
+    cells+=`<button class="cell" type="button" data-r="${r}" data-c="${c}" tabindex="-1" aria-hidden="true"><span></span></button>`;
+  const lockR=st.lock?.rows!==undefined, lockC=st.lock?.cols!==undefined;
+  return `<div class="builder">
+    <div class="abgrid" id="abgrid" style="grid-template-columns:repeat(${maxC},var(--cs));--cs:${cs}px"
+         role="application" aria-label="Array builder. Use the row and column buttons, or drag across the grid.">${cells}</div>
+    <div class="dims">
+      <div class="dim ${lockR?'locked':''}">
+        <span class="cap">Rows</span>
+        <button class="stepbtn" type="button" data-adj="r-1" ${lockR?'disabled':''} aria-label="One fewer row">&minus;</button>
+        <span class="num" id="abr">0</span>
+        <button class="stepbtn" type="button" data-adj="r1" ${lockR?'disabled':''} aria-label="One more row">+</button>
+      </div>
+      <div class="dim ${lockC?'locked':''}">
+        <span class="cap">In each row</span>
+        <button class="stepbtn" type="button" data-adj="c-1" ${lockC?'disabled':''} aria-label="One fewer in each row">&minus;</button>
+        <span class="num" id="abc">0</span>
+        <button class="stepbtn" type="button" data-adj="c1" ${lockC?'disabled':''} aria-label="One more in each row">+</button>
+      </div>
+    </div>
+    <div class="readout" id="abread" role="status" aria-live="polite">&nbsp;</div>
+  </div>`;
 }
 
-/* ---- MODULE 6: geometry, measurement, data ---- */
-const M6 = [
-  ()=>{ const h=R(1,12), m=pick([0,5,10,15,20,25,30,35,40,45,50,55]);
-    const txt=`${h}:${String(m).padStart(2,'0')}`;
-    const wrongs=[`${h}:${String((m+5)%60).padStart(2,'0')}`, `${h===12?1:h+1}:${String(m).padStart(2,'0')}`, `${h}:${String((m+30)%60).padStart(2,'0')}`];
-    const arr=shuffle(uniq([txt,...wrongs])).slice(0,4);
-    return {q:`What time is shown?`, sub:`The short hand is hours, the long hand is minutes.`, fig:clockFig(h,m),
-      choices:arr, answer:arr.indexOf(txt),
-      why:`The hour hand has passed ${h}, and the minute hand points to ${m} minutes. It is ${txt}.`}; },
-  ()=>{ const sh=R(1,10), sm=pick([0,10,15,20,30,45]); const add=pick([15,20,25,30,35,40,45,50]);
-    let tm=sm+add, th=sh+Math.floor(tm/60); tm=tm%60;
+function arrayPaint(){
+  const grid=document.getElementById('abgrid');
+  if(!grid) return;
+  const {rows,cols}=B;
+  grid.querySelectorAll('.cell').forEach(el=>{
+    const r=+el.dataset.r, c=+el.dataset.c;
+    el.className='cell'+((r<rows&&c<cols)?' on':'');
+  });
+  document.getElementById('abr').textContent=rows;
+  document.getElementById('abc').textContent=cols;
+  const ro=document.getElementById('abread');
+  ro.className='readout';
+  ro.innerHTML = (rows&&cols)
+    ? `${rows} ${plural(rows,'row')} of ${cols}<span class="status">Press Check when your drawing is finished.</span>`
+    : `<span style="font-size:15px">Nothing drawn yet</span><span class="status">Drag across the grid, or use the + buttons.</span>`;
+}
+
+function arraySet(r,c){
+  const st=B.step, maxR=st.max?.r??10, maxC=st.max?.c??10;
+  if(st.lock?.rows===undefined) B.rows=Math.max(0,Math.min(maxR,r));
+  if(st.lock?.cols===undefined) B.cols=Math.max(0,Math.min(maxC,c));
+  arrayPaint();
+}
+
+function arrayWire(){
+  const grid=document.getElementById('abgrid');
+  let dragging=false;
+  const fromPoint=(x,y)=>{
+    const el=document.elementFromPoint(x,y);
+    const cell=el&&el.closest?el.closest('.cell'):null;
+    if(cell&&grid.contains(cell)) arraySet(+cell.dataset.r+1,+cell.dataset.c+1);
+  };
+  grid.addEventListener('pointerdown',e=>{
+    dragging=true; grid.setPointerCapture(e.pointerId); fromPoint(e.clientX,e.clientY); e.preventDefault();
+  });
+  grid.addEventListener('pointermove',e=>{ if(dragging) fromPoint(e.clientX,e.clientY); });
+  const stop=()=>{dragging=false;};
+  grid.addEventListener('pointerup',stop); grid.addEventListener('pointercancel',stop);
+  document.querySelectorAll('[data-adj]').forEach(b=>b.addEventListener('click',()=>{
+    const a=b.dataset.adj, d=+a.slice(1);
+    if(a[0]==='r') arraySet(B.rows+d, B.cols||1); else arraySet(B.rows||1, B.cols+d);
+  }));
+}
+
+function arrayMini(rows,cols,total){
+  const cs=11; let cells='';
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const over = total!==undefined && (r*cols+c)>=total;
+    cells+=`<span style="width:${cs}px;height:${cs}px;border-radius:50%;background:${over?'var(--berry)':'var(--pine)'}"></span>`;
+  }
+  return `<div class="mini" style="display:grid;grid-template-columns:repeat(${cols},${cs}px);gap:3px">${cells}</div>`;
+}
+
+/* ================= TAPE BUILDER ================= */
+function tapeHTML(st){
+  return `<div class="builder">
+    <div class="tape">
+      <div class="brace">&#9484;&mdash;&mdash; ${st.total} in all &mdash;&mdash;&#9488;</div>
+      <div class="bar" id="tpbar"></div>
+      <div class="cap" id="tpcap">&nbsp;</div>
+    </div>
+    <div class="dims">
+      <div class="dim">
+        <span class="cap">${st.partWord||'Parts'}</span>
+        <button class="stepbtn" type="button" data-tp="-1" aria-label="One fewer part">&minus;</button>
+        <span class="num" id="tpn">1</span>
+        <button class="stepbtn" type="button" data-tp="1" aria-label="One more part">+</button>
+      </div>
+    </div>
+    <div class="readout" id="tpread" role="status" aria-live="polite">&nbsp;</div>
+  </div>`;
+}
+function tapePaint(){
+  const st=B.step, n=B.parts, bar=document.getElementById('tpbar');
+  if(!bar) return;
+  let segs='';
+  for(let i=0;i<n;i++) segs+=`<div class="seg">?</div>`;
+  bar.innerHTML=segs;
+  document.getElementById('tpn').textContent=n;
+  document.getElementById('tpcap').innerHTML=`${n} equal ${plural(n,'part')}`;
+  const ro=document.getElementById('tpread');
+  ro.className='readout';
+  ro.innerHTML=`${n} equal ${plural(n,'part')}<span class="status">Press Check when your diagram is finished.</span>`;
+}
+
+function tapeWire(){
+  document.querySelectorAll('[data-tp]').forEach(b=>b.addEventListener('click',()=>{
+    B.parts=Math.max(1,Math.min(12,B.parts+ +b.dataset.tp)); tapePaint();
+  }));
+}
+function tapeMini(total,parts,showPart){
+  const per=total/parts; let s='';
+  for(let i=0;i<parts;i++) s+=`<div class="seg">${showPart?per:'?'}</div>`;
+  return `<div class="mini tape" style="max-width:240px"><div class="bar" style="height:32px">${s}</div><div class="cap">${total} in ${parts} equal ${plural(parts,'part')}</div></div>`;
+}
+
+/* ================= PLACE VALUE DISKS ================= */
+const PV=[['Thousands',1000,'var(--berry)'],['Hundreds',100,'var(--pine)'],['Tens',10,'var(--sky)'],['Ones',1,'var(--brass)']];
+function disksHTML(){
+  return `<div class="builder">
+    <div class="disks">${PV.map((c,i)=>`
+      <div class="dcol">
+        <span class="cap">${c[0].toUpperCase()}</span>
+        <div class="well" id="dw${i}"></div>
+        <div class="ctl">
+          <button type="button" data-dk="${i}:-1" aria-label="Remove one ${c[0]} disk">&minus;</button>
+          <button type="button" data-dk="${i}:1" aria-label="Add one ${c[0]} disk">+</button>
+        </div>
+      </div>`).join('')}</div>
+    <div class="readout" id="dkread" role="status" aria-live="polite">&nbsp;</div>
+  </div>`;
+}
+function disksPaint(){
+  PV.forEach((c,i)=>{
+    const w=document.getElementById('dw'+i); if(!w) return;
+    w.innerHTML=Array.from({length:B.disks[i]},()=>`<span class="disk" style="background:${c[2]}"></span>`).join('');
+  });
+  const ro=document.getElementById('dkread');
+  ro.className='readout';
+  ro.innerHTML=`${B.disks[0]} thousands &middot; ${B.disks[1]} hundreds &middot; ${B.disks[2]} tens &middot; ${B.disks[3]} ones`
+    +`<span class="status">Press Check when your number is built.</span>`;
+}
+
+function disksWire(){
+  document.querySelectorAll('[data-dk]').forEach(b=>b.addEventListener('click',()=>{
+    const [i,d]=b.dataset.dk.split(':').map(Number);
+    B.disks[i]=Math.max(0,Math.min(9,B.disks[i]+d)); disksPaint();
+  }));
+}
+
+/* ================= FRACTION BAR ================= */
+function fracHTML(st){
+  return `<div class="builder">
+    <div class="fbar" id="fbar"></div>
+    <div class="dims">
+      <div class="dim">
+        <span class="cap">Equal parts</span>
+        <button class="stepbtn" type="button" data-fp="-1" aria-label="One fewer part">&minus;</button>
+        <span class="num" id="fpn">1</span>
+        <button class="stepbtn" type="button" data-fp="1" aria-label="One more part">+</button>
+      </div>
+      <div class="dim"><span class="cap">Tap a part to shade it</span></div>
+    </div>
+    <div class="readout" id="fread" role="status" aria-live="polite">&nbsp;</div>
+  </div>`;
+}
+function fracPaint(){
+  const bar=document.getElementById('fbar'); if(!bar) return;
+  let s2='';
+  for(let i=0;i<B.d;i++) s2+=`<button class="fseg ${i<B.n?'sh':''}" type="button" data-fs="${i}" aria-label="Part ${i+1}"></button>`;
+  bar.innerHTML=s2;
+  document.getElementById('fpn').textContent=B.d;
+  const ro=document.getElementById('fread');
+  ro.className='readout';
+  ro.innerHTML=`${B.n} of ${B.d} shaded<span class="status">Press Check when your bar is finished.</span>`;
+}
+
+function fracWire(){
+  document.querySelectorAll('[data-fp]').forEach(b=>b.addEventListener('click',()=>{
+    B.d=Math.max(1,Math.min(10,B.d+ +b.dataset.fp)); B.n=Math.min(B.n,B.d); fracPaint();
+  }));
+  document.getElementById('fbar').addEventListener('click',e=>{
+    const s=e.target.closest('[data-fs]'); if(!s)return;
+    const i=+s.dataset.fs; B.n = (B.n===i+1) ? i : i+1; fracPaint();
+  });
+}
+function fracMini(d,n){
+  let s='';
+  for(let i=0;i<d;i++) s+=`<div class="fseg ${i<n?'sh':''}"></div>`;
+  return `<div class="mini fbar ro" style="max-width:200px;height:30px">${s}</div>`;
+}
+
+/* ================= NUMBER LINE ================= */
+function nlineHTML(st){
+  return `<div class="builder">
+    <div class="nlwrap" id="nlw">${nlineSVG(st,null)}</div>
+    <div class="readout" id="nlread" role="status" aria-live="polite">&nbsp;</div>
+    <div class="hintline" style="margin:0">Tap the line where the number belongs.</div>
+  </div>`;
+}
+function nlineSVG(st,v,locked){
+  const W=460,H=96,pad=38, span=st.max-st.min;
+  const sx=x=>pad+((x-st.min)/span)*(W-pad*2);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="number line from ${st.min} to ${st.max}">`;
+  s+=`<line x1="${pad}" y1="52" x2="${W-pad}" y2="52" stroke="var(--ink)" stroke-width="2.5"/>`;
+  for(let t=st.min;t<=st.max+1e-9;t+=st.step){
+    const x=sx(t), major=st.majors?st.majors.includes(+t.toFixed(6)):false;
+    s+=`<line x1="${x}" y1="46" x2="${x}" y2="58" stroke="var(--ink)" stroke-width="${major?2.4:1.2}" opacity="${major?1:.5}"/>`;
+  }
+  s+=`<text x="${pad}" y="78" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${st.labMin??st.min}</text>`;
+  s+=`<text x="${W-pad}" y="78" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${st.labMax??st.max}</text>`;
+  if(st.mid!==undefined) s+=`<line x1="${sx(st.mid)}" y1="40" x2="${sx(st.mid)}" y2="64" stroke="var(--brass)" stroke-width="2" stroke-dasharray="3 3"/>`;
+  if(v!==null&&v!==undefined){
+    const x=sx(v), col=locked?'var(--pine)':'var(--brass)';
+    s+=`<circle cx="${x}" cy="52" r="8" fill="${col}" stroke="var(--card)" stroke-width="2.5"/>`;
+    s+=`<text x="${x}" y="28" fill="${col}" font-family="IBM Plex Mono,monospace" font-weight="600" font-size="15" text-anchor="middle">${st.fmt?st.fmt(v):v}</text>`;
+  }
+  return s+'</svg>';
+}
+function nlinePaint(){
+  const st=B.step;
+  document.getElementById('nlw').innerHTML=nlineSVG(st,B.v);
+  const ro=document.getElementById('nlread');
+  ro.className='readout';
+  ro.innerHTML=(B.v===null?'Nothing placed yet':'Mark placed')
+    +`<span class="status">Press Check when your mark is where you want it.</span>`;
+}
+
+function nlineWire(){
+  const w=document.getElementById('nlw'), st=B.step;
+  const place=e=>{
+    const svg=w.querySelector('svg'), r=svg.getBoundingClientRect();
+    const W=460,pad=38, span=st.max-st.min;
+    const px=((e.clientX-r.left)/r.width)*W;
+    let val=st.min+((px-pad)/(W-pad*2))*span;
+    val=Math.round(val/st.step)*st.step;
+    val=Math.max(st.min,Math.min(st.max,+val.toFixed(6)));
+    B.v=val; nlinePaint();
+  };
+  w.addEventListener('pointerdown',e=>{place(e); e.preventDefault();});
+}
+
+/* ================= STATIC FIGURES (shown with answer steps) ================= */
+function clockFig(hh,mm){
+  const cx=90,cy=90,r=72;
+  let s=`<svg viewBox="0 0 180 180" width="190" role="img" aria-label="analog clock face">`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>`;
+  for(let i=0;i<60;i++){
+    const a=(i/60)*Math.PI*2-Math.PI/2,big=i%5===0,r1=r-(big?11:5),r2=r-2;
+    s+=`<line x1="${cx+Math.cos(a)*r1}" y1="${cy+Math.sin(a)*r1}" x2="${cx+Math.cos(a)*r2}" y2="${cy+Math.sin(a)*r2}" stroke="${big?'var(--ink)':'var(--muted)'}" stroke-width="${big?2.4:1}"/>`;
+  }
+  for(let n=1;n<=12;n++){
+    const a=(n/12)*Math.PI*2-Math.PI/2;
+    s+=`<text x="${cx+Math.cos(a)*(r-24)}" y="${cy+Math.sin(a)*(r-24)+5}" fill="var(--ink)" font-family="IBM Plex Mono,monospace" font-size="13" text-anchor="middle">${n}</text>`;
+  }
+  const ma=(mm/60)*Math.PI*2-Math.PI/2, ha=(((hh%12)+mm/60)/12)*Math.PI*2-Math.PI/2;
+  s+=`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(ha)*(r-36)}" y2="${cy+Math.sin(ha)*(r-36)}" stroke="var(--pine)" stroke-width="7" stroke-linecap="round"/>`;
+  s+=`<line x1="${cx}" y1="${cy}" x2="${cx+Math.cos(ma)*(r-14)}" y2="${cy+Math.sin(ma)*(r-14)}" stroke="var(--brass)" stroke-width="4" stroke-linecap="round"/>`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="5" fill="var(--ink)"/></svg>`;
+  return s;
+}
+function barGraphFig(cats,vals,scale,unit){
+  const w=430,h=210,pad=46,base=h-38,top=Math.ceil(Math.max(...vals)/scale)*scale;
+  const bw=(w-pad-20)/cats.length;
+  let s=`<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="bar graph of ${unit}">`;
+  for(let v=0;v<=top;v+=scale){
+    const y=base-(v/top)*(base-24);
+    s+=`<line x1="${pad}" y1="${y}" x2="${w-8}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+    s+=`<text x="${pad-8}" y="${y+4}" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="11" text-anchor="end">${v}</text>`;
+  }
+  cats.forEach((c,i)=>{
+    const bh=(vals[i]/top)*(base-24),x=pad+i*bw+bw*0.18;
+    s+=`<rect x="${x}" y="${base-bh}" width="${bw*0.64}" height="${bh}" fill="${i%2?'var(--sky)':'var(--pine)'}" rx="2"/>`;
+    s+=`<text x="${x+bw*0.32}" y="${base+16}" fill="var(--ink)" font-family="IBM Plex Mono,monospace" font-size="11.5" text-anchor="middle">${c}</text>`;
+  });
+  s+=`<line x1="${pad}" y1="${base}" x2="${w-8}" y2="${base}" stroke="var(--ink)" stroke-width="2"/>`;
+  s+=`<text x="${pad-8}" y="18" fill="var(--muted)" font-family="IBM Plex Mono,monospace" font-size="10.5" text-anchor="end">${unit}</text></svg>`;
+  return s;
+}
+
+/* ---- the correct build, revealed only after the student commits ---- */
+function solutionOf(st){
+  if(st.kind==='array'){
+    const n=st.need; let r=n.rows,c=n.cols;
+    if(r===undefined&&c!==undefined) r=n.total/c;
+    if(c===undefined&&r!==undefined) c=n.total/r;
+    if(r===undefined&&c===undefined){ r=1;c=n.total;
+      for(let x=1;x<=(st.max?.r??10);x++) if(n.total%x===0&&n.total/x<=(st.max?.c??10)){r=x;c=n.total/x;break;} }
+    return {text:`${r} ${plural(r,'row')} of ${c} = ${r*c}`, mini:arrayMini(r,c)};
+  }
+  if(st.kind==='tape')  return {text:`${st.need.parts} equal ${plural(st.need.parts,'part')} of ${st.total/st.need.parts}`, mini:tapeMini(st.total,st.need.parts,true)};
+  if(st.kind==='disks') return {text:`${st.need.value.toLocaleString()}`, mini:''};
+  if(st.kind==='frac')  return {text:`${st.need.n} of ${st.need.d} parts shaded`, mini:fracMini(st.need.d,st.need.n)};
+  if(st.kind==='nline') return {text:`${st.fmt?st.fmt(st.need.v):st.need.v}`, mini:`<div class="mini" style="max-width:260px">${nlineSVG(st,st.need.v,true)}</div>`};
+  return {text:'',mini:''};
+}
+
+/* ============================================================
+   BUILDER DISPATCH
+   ============================================================ */
+const BUILDERS={
+  array:{html:arrayBuilderHTML, init:st=>({rows:st.lock?.rows??0, cols:st.lock?.cols??0}), paint:arrayPaint, wire:arrayWire,
+    ok:st=>{const n=st.need; return (n.total===undefined||B.rows*B.cols===n.total)&&(n.rows===undefined||B.rows===n.rows)&&(n.cols===undefined||B.cols===n.cols)&&B.rows>0&&B.cols>0;},
+    recap:st=>`${B.rows} ${plural(B.rows,'row')} of ${B.cols} = ${B.rows*B.cols}`,
+    mini:st=>arrayMini(B.rows,B.cols)},
+  tape:{html:tapeHTML, init:()=>({parts:1}), paint:tapePaint, wire:tapeWire,
+    ok:st=>{const per=st.total/B.parts; if(st.total%B.parts!==0)return false;
+      return st.need.partValue!==undefined ? per===st.need.partValue : B.parts===st.need.parts;},
+    recap:st=>`${st.total} split into ${B.parts} equal ${plural(B.parts,'part')} of ${st.total/B.parts}`,
+    mini:st=>tapeMini(st.total,B.parts,st.showPart)},
+  disks:{html:disksHTML, init:()=>({disks:[0,0,0,0]}), paint:disksPaint, wire:disksWire,
+    ok:st=>B.disks.reduce((t,n,i)=>t+n*PV[i][1],0)===st.need.value,
+    recap:st=>`${B.disks.reduce((t,n,i)=>t+n*PV[i][1],0).toLocaleString()} built from ${B.disks[0]} thousands, ${B.disks[1]} hundreds, ${B.disks[2]} tens, ${B.disks[3]} ones`,
+    mini:()=>''},
+  frac:{html:fracHTML, init:()=>({d:1,n:0}), paint:fracPaint, wire:fracWire,
+    ok:st=>B.d===st.need.d&&B.n===st.need.n,
+    recap:st=>`${B.n} of ${B.d} equal parts shaded`,
+    mini:st=>fracMini(B.d,B.n)},
+  nline:{html:nlineHTML, init:()=>({v:null}), paint:nlinePaint, wire:nlineWire,
+    ok:st=>B.v!==null&&Math.abs(B.v-st.need.v)<st.step/4,
+    recap:st=>`Placed at ${st.fmt?st.fmt(B.v):B.v}`,
+    mini:st=>`<div class="mini" style="max-width:260px">${nlineSVG(st,B.v,true)}</div>`}
+};
+const isBuild=k=>!!BUILDERS[k];
+
+/* ============================================================
+   QUESTION BANKS
+   ============================================================ */
+
+/* ---------- MODULE 1 : equal groups, units of 2,3,4,5,10 ---------- */
+const M1=[
+  ()=>{const rows=pick([3,4,5]),per=pick([6,7,8,9]),tot=rows*per;
+    return{q:`Mr. Diaz sets out ${tot} chairs in ${rows} equal rows for the assembly.`,steps:[
+      {kind:'array',instruct:'Draw the array of chairs.',need:{rows:rows,cols:per,total:tot},max:{r:6,c:10}},
+      {kind:'input',instruct:'How many chairs are in each row?',ans:per},
+      {kind:'input',instruct:`Two more students arrive, so he adds ${rows} more chairs — one to each row. How many chairs now?`,ans:tot+rows}
+    ],why:`${tot} chairs in ${rows} equal rows means ${tot} ÷ ${rows} = ${per} per row. Adding one to each of the ${rows} rows makes ${rows} × ${per+1} = ${tot+rows}.`};},
+
+  ()=>{const packs=pick([4,5,6]),per=pick([6,7,8]),tot=packs*per,dried=R(5,11);
+    return{q:`A teacher buys ${packs} packs of markers with ${per} markers in each pack. Later she finds ${dried} of them have dried out.`,steps:[
+      {kind:'array',instruct:'Draw the array that shows the markers she bought.',need:{rows:packs,cols:per,total:tot},max:{r:7,c:9}},
+      {kind:'input',instruct:'How many markers did she buy in all?',ans:tot},
+      {kind:'input',instruct:'How many markers still work?',ans:tot-dried}
+    ],why:`${packs} × ${per} = ${tot} markers bought. Take away the ${dried} dried out: ${tot} − ${dried} = ${tot-dried} still work.`};},
+
+  ()=>{const friends=pick([4,5]),each=pick([7,8,9]),tot=friends*each,combine=pick([2,3]);
+    return{q:`${tot} stickers are shared equally among ${friends} friends.`,steps:[
+      {kind:'tape',instruct:'Draw the tape diagram for this sharing problem.',total:tot,need:{parts:friends}},
+      {kind:'input',instruct:'How many stickers does each friend get?',ans:each},
+      {kind:'input',instruct:`${combine} of the friends put their stickers together. How many do they have?`,ans:each*combine}
+    ],why:`${tot} ÷ ${friends} = ${each} stickers each. ${combine} friends together have ${combine} × ${each} = ${each*combine}.`};},
+
+  ()=>{const per=pick([4,5]),bags=pick([7,8,9]),tot=per*bags;
+    return{q:`A baker has ${tot} rolls and packs them into bags of ${per}.`,steps:[
+      {kind:'array',instruct:`Draw the array, using one row for each bag.`,need:{rows:bags,cols:per,total:tot},max:{r:10,c:6}},
+      {kind:'input',instruct:'How many bags does she fill?',ans:bags},
+      {kind:'choice',instruct:'Which equation matches this problem?',
+       ...mcText(`${tot} ÷ ${per} = ${bags}`,[`${tot} ÷ ${bags} = ${per}`,`${tot} × ${per} = ${tot*per}`,`${tot} − ${per} = ${tot-per}`])}
+    ],why:`Measuring out groups of ${per} from ${tot} takes ${bags} bags: ${tot} ÷ ${per} = ${bags}. The total is split into groups of a known size, so you divide by ${per}.`};},
+
+  ()=>{const rows=4,per=pick([7,8,9]),tot=rows*per,brows=5,btot=brows*per;
+    return{q:`Ana arranges ${tot} stamps into ${rows} equal rows. Ben arranges his stamps into ${brows} rows with the same number in each row as Ana.`,steps:[
+      {kind:'array',instruct:'Draw Ana\'s array.',need:{rows:rows,cols:per,total:tot},max:{r:7,c:10}},
+      {kind:'input',instruct:'How many stamps are in each of Ana\'s rows?',ans:per},
+      {kind:'input',instruct:'How many more stamps does Ben have than Ana?',ans:btot-tot}
+    ],why:`Ana: ${tot} ÷ ${rows} = ${per} per row. Ben has ${brows} rows of ${per} = ${btot}. The difference is ${btot} − ${tot} = ${btot-tot} — one extra row of ${per}.`};},
+
+  ()=>{const shelves=pick([3,4]),per=pick([8,9]),tot=shelves*per,out=R(4,9),desks=R(11,26);
+    return{q:`A classroom has ${shelves} shelves with ${per} books on each shelf. ${out} books are checked out. The room also has ${desks} desks.`,steps:[
+      {kind:'array',instruct:'Draw the array that shows the books on the shelves.',need:{rows:shelves,cols:per,total:tot},max:{r:6,c:10}},
+      {kind:'input',instruct:'How many books were on the shelves to start?',ans:tot},
+      {kind:'input',instruct:'How many books are left on the shelves?',ans:tot-out}
+    ],why:`${shelves} × ${per} = ${tot} books. Then ${tot} − ${out} = ${tot-out} left. The ${desks} desks have nothing to do with the books — not every number in a problem is needed.`};}
+];
+
+/* ---------- MODULE 2 : place value & metric measurement ---------- */
+const M2=[
+  ()=>{const th=R(2,7),h=R(0,4),extraTens=R(11,19),o=R(1,8);
+    const val=th*1000+h*100+extraTens*10+o;
+    return{q:`A number is made of ${th} thousands, ${h} hundreds, ${extraTens} tens, and ${o} ones.`,steps:[
+      {kind:'disks',instruct:'Build that number with place value disks. No column may hold more than 9.',need:{value:val}},
+      {kind:'input',instruct:'What is the number?',ans:val}
+    ],why:`${extraTens} tens is more than 9, so regroup: ${extraTens} tens = ${Math.floor(extraTens/10)} hundred and ${extraTens%10} tens. That makes ${th} thousands, ${h+Math.floor(extraTens/10)} hundreds, ${extraTens%10} tens, ${o} ones = ${val.toLocaleString()}.`};},
+
+  ()=>{const n=R(21,78)*10+R(1,9),lo=Math.floor(n/100)*100,hi=lo+100;
+    const ansH=(n-lo>=50)?hi:lo, ansT=Math.round(n/10)*10;
+    return{q:`Round ${n} two different ways.`,steps:[
+      {kind:'nline',instruct:`Place ${n} on the number line, using the closest tick.`,
+       min:lo,max:hi,step:10,majors:[lo,hi],mid:lo+50,need:{v:Math.round(n/10)*10}},
+      {kind:'input',instruct:`Round ${n} to the nearest ten.`,ans:ansT},
+      {kind:'input',instruct:`Now round ${n} to the nearest hundred.`,ans:ansH}
+    ],why:`To the nearest ten, ${n} → ${ansT}. To the nearest hundred, ${n} sits between ${lo} and ${hi} with a halfway point of ${lo+50}, so it rounds to ${ansH}. Rounding to a different place can give a different answer.`};},
+
+  ()=>{const L=pick([2,3,4]),drank=pick([250,350,450,750]);
+    return{q:`A pitcher holds ${L} liters of water. Someone pours out ${drank} milliliters.`,steps:[
+      {kind:'input',instruct:`How many milliliters does the pitcher hold? (1 L = 1,000 mL)`,ans:L*1000},
+      {kind:'input',instruct:'How many milliliters are left in the pitcher?',ans:L*1000-drank}
+    ],why:`${L} L = ${L*1000} mL. Then ${L*1000} − ${drank} = ${L*1000-drank} mL left. You have to convert to the same unit before subtracting.`};},
+
+  ()=>{const kg=pick([3,4,5]),bagG=pick([250,400,500]);
+    const bags=Math.floor(kg*1000/bagG);
+    return{q:`A ${kg} kilogram sack of flour is split into bags holding ${bagG} grams each.`,steps:[
+      {kind:'input',instruct:'How many grams of flour are in the sack? (1 kg = 1,000 g)',ans:kg*1000},
+      {kind:'input',instruct:`How many full ${bagG} gram bags can be filled?`,ans:bags}
+    ],why:`${kg} kg = ${kg*1000} g. Then ${kg*1000} ÷ ${bagG} = ${bags} bags.`};},
+
+  ()=>{const a=R(3,7)*100+R(21,89),b=R(1,3)*100+R(21,89),c=R(50,180);
+    return{q:`A library had ${a} books. ${b} more were donated, then ${c} were given away.`,steps:[
+      {kind:'input',instruct:`How many books after the donation? ${a} + ${b} = ?`,ans:a+b},
+      {kind:'input',instruct:`And after giving ${c} away?`,ans:a+b-c}
+    ],why:`${a} + ${b} = ${a+b}, then ${a+b} − ${c} = ${a+b-c} books.`};},
+
+  ()=>{const a=R(4,8)*100+R(20,90),b=R(2,4)*100+R(20,90);
+    const ra=Math.round(a/100)*100, rb=Math.round(b/100)*100;
+    return{q:`Estimate before you calculate: ${a} + ${b}.`,steps:[
+      {kind:'input',instruct:`Round ${a} to the nearest hundred.`,ans:ra},
+      {kind:'input',instruct:`Round ${b} to the nearest hundred.`,ans:rb},
+      {kind:'input',instruct:'What is the exact sum?',ans:a+b}
+    ],why:`Estimate: ${ra} + ${rb} = ${ra+rb}. Exact: ${a} + ${b} = ${a+b}. The estimate tells you the exact answer is in the right neighborhood.`};}
+];
+
+/* ---------- MODULE 3 : units of 0,1,6,7,8,9 and beyond ---------- */
+const M3=[
+  ()=>{const a=pick([6,7,8,9]),b=pick([11,12]);
+    return{q:`${a} × ${b} is past the facts you have memorized. Break the ${b} into ${b===11?'10 and 1':'10 and 2'}.`,steps:[
+      {kind:'array',instruct:`Draw the first piece: the part that uses 10.`,need:{rows:a,cols:10,total:a*10},max:{r:9,c:12}},
+      {kind:'array',instruct:`Draw the second piece: the part that is left over.`,need:{rows:a,cols:b-10,total:a*(b-10)},max:{r:9,c:4}},
+      {kind:'input',instruct:`Add the two pieces together. ${a} × ${b} = ?`,ans:a*b}
+    ],why:`${a} × ${b} = (${a} × 10) + (${a} × ${b-10}) = ${a*10} + ${a*(b-10)} = ${a*b}.`};},
+
+  ()=>{const rows=pick([6,7,8]),per=pick([7,8,9]),tot=rows*per,eaten=R(6,14);
+    return{q:`A tray of brownies is cut into ${rows} rows with ${per} brownies in each row. ${eaten} are eaten at the party.`,steps:[
+      {kind:'array',instruct:'Draw the array of brownies.',need:{rows:rows,cols:per,total:tot},max:{r:9,c:9}},
+      {kind:'input',instruct:'How many brownies were on the tray?',ans:tot},
+      {kind:'input',instruct:'How many are left?',ans:tot-eaten}
+    ],why:`${rows} × ${per} = ${tot} brownies, then ${tot} − ${eaten} = ${tot-eaten} left.`};},
+
+  ()=>{const per=pick([6,7,8,9]),rows=pick([6,7,8,9]),tot=per*rows;
+    return{q:`${tot} photos are arranged in equal rows with ${per} photos in each row.`,steps:[
+      {kind:'array',instruct:'Draw the array of photos.',need:{rows:rows,cols:per,total:tot},max:{r:10,c:9}},
+      {kind:'input',instruct:'How many rows are there?',ans:rows},
+      {kind:'choice',instruct:'Which equation did you just solve?',
+       ...mcText(`${tot} ÷ ${per} = ${rows}`,[`${tot} ÷ ${rows} = ${per}`,`${per} × ${rows} = ${tot}`,`${tot} − ${per} = ${tot-per}`])}
+    ],why:`You knew the total (${tot}) and the size of each row (${per}), and found how many rows: ${tot} ÷ ${per} = ${rows}.`};},
+
+  ()=>{const boxes=pick([4,6,7,8]),per=pick([20,30,40,50]);
+    return{q:`A warehouse has ${boxes} crates. Each crate holds ${per} cans.`,steps:[
+      {kind:'input',instruct:`Start with the easy fact: ${boxes} × ${per/10} = ?`,ans:boxes*per/10},
+      {kind:'input',instruct:`Now use it. How many cans in all?`,ans:boxes*per},
+      {kind:'input',instruct:`${R(30,90)>0?'':''}Half the crates are shipped out. How many cans leave the warehouse?`,ans:boxes*per/2}
+    ],why:`${boxes} × ${per/10} = ${boxes*per/10}, so ${boxes} × ${per} = ${boxes*per} cans. Half of ${boxes*per} is ${boxes*per/2}.`};},
+
+  ()=>{const b=pick([6,7,8]),c=pick([9,12]);
+    return{q:`Compare two totals: ${b} groups of ${c}, and ${c} groups of ${b}.`,steps:[
+      {kind:'array',instruct:`Draw ${b} rows of ${c}.`,need:{rows:b,cols:c,total:b*c},max:{r:9,c:12}},
+      {kind:'input',instruct:`How many in all?`,ans:b*c},
+      {kind:'choice',instruct:`Without drawing again — how many are in ${c} rows of ${b}?`,
+       ...mcText(`${b*c}, the same`,[`${b+c}`,`${b*c*2}`,`There is no way to tell`])}
+    ],why:`${b} × ${c} = ${c} × ${b} = ${b*c}. Turning the array on its side does not change how many there are, so you never have to redraw it.`};},
+
+  ()=>{const weeks=pick([4,5,6,8]),perDay=pick([2,3]);
+    const days=weeks*7, tot=days*perDay;
+    return{q:`Someone reads ${perDay} chapters every day for ${weeks} weeks.`,steps:[
+      {kind:'input',instruct:`How many days is ${weeks} weeks? (7 days in a week)`,ans:days},
+      {kind:'input',instruct:'How many chapters is that in all?',ans:tot}
+    ],why:`${weeks} × 7 = ${days} days, and ${days} × ${perDay} = ${tot} chapters. Two multiplications, one after the other.`};}
+];
+
+/* ---------- MODULE 4 : multiplication and area ---------- */
+const M4=[
+  ()=>{const w=pick([4,5,6]),l=pick([7,8,9]),area=w*l;
+    return{q:`A rug covers ${area} square feet of floor. It is ${w} feet wide.`,steps:[
+      {kind:'array',instruct:'Draw the rug as a rectangle of square units.',need:{rows:w,cols:l,total:area},max:{r:7,c:10}},
+      {kind:'input',instruct:'How long is the rug, in feet?',ans:l},
+      {kind:'input',instruct:'What is the perimeter of the rug, in feet?',ans:2*(w+l)}
+    ],why:`${w} × ___ = ${area}, so the length is ${l} feet. Perimeter walks the edge: ${l} + ${w} + ${l} + ${w} = ${2*(w+l)} feet.`};},
+
+  ()=>{const h=pick([3,4,5]),a=pick([4,5,6]),b=pick([3,4]);
+    return{q:`A garden is made of two rectangular beds side by side. Both are ${h} feet deep. One is ${a} feet wide, the other is ${b} feet wide.`,steps:[
+      {kind:'array',instruct:'Draw the first bed.',need:{rows:h,cols:a,total:h*a},max:{r:6,c:8}},
+      {kind:'array',instruct:'Draw the second bed.',need:{rows:h,cols:b,total:h*b},max:{r:6,c:6}},
+      {kind:'input',instruct:'What is the total area of the garden, in square feet?',ans:h*(a+b)}
+    ],why:`${h} × ${a} = ${h*a} and ${h} × ${b} = ${h*b}. Together that is ${h*(a+b)} square feet — the same as ${h} × ${a+b}, because the beds share a depth.`};},
+
+  ()=>{const w=pick([3,4,5]),l=pick([6,7,8]);
+    return{q:`A sandbox is ${l} feet long and ${w} feet wide. Sand covers the bottom; a wooden edge runs around the outside.`,steps:[
+      {kind:'array',instruct:'Draw the sandbox as a rectangle of square units.',need:{rows:w,cols:l,total:w*l},max:{r:6,c:9}},
+      {kind:'input',instruct:'How many square feet of sand cover the bottom?',ans:w*l},
+      {kind:'input',instruct:'How many feet of wood run around the outside?',ans:2*(w+l)}
+    ],why:`Sand fills the inside, so that is area: ${l} × ${w} = ${w*l} square feet. Wood goes around the edge, so that is perimeter: ${2*(w+l)} feet. Same rectangle, two different measurements.`};},
+
+  ()=>{const s=pick([5,6,7,8]);
+    return{q:`A square patio is ${s} feet on every side. Square tiles one foot across will cover it.`,steps:[
+      {kind:'array',instruct:'Draw the patio as a square of tiles.',need:{rows:s,cols:s,total:s*s},max:{r:9,c:9}},
+      {kind:'input',instruct:'How many tiles are needed?',ans:s*s},
+      {kind:'input',instruct:`Tiles come in boxes of ${s}. How many boxes are needed?`,ans:s}
+    ],why:`A ${s} by ${s} square needs ${s*s} tiles. At ${s} tiles per box, that is ${s*s} ÷ ${s} = ${s} boxes.`};},
+
+  ()=>{const w=pick([4,6]),l=pick([6,8,9]),area=w*l;
+    const w2=pick([3,5]),l2=Math.round(area/w2);
+    return{q:`Two rectangles are being compared. The first is ${l} feet by ${w} feet. The second is ${l2} feet by ${w2} feet.`,steps:[
+      {kind:'array',instruct:'Draw the first rectangle.',need:{rows:w,cols:l,total:area},max:{r:7,c:10}},
+      {kind:'input',instruct:'What is the area of the first rectangle?',ans:area},
+      {kind:'input',instruct:'What is the area of the second rectangle?',ans:w2*l2}
+    ],why:`First: ${l} × ${w} = ${area} square feet. Second: ${l2} × ${w2} = ${w2*l2} square feet. ${area===w2*l2?'They cover the same area even though their shapes differ.':(area>w2*l2?'The first is larger by '+(area-w2*l2)+' square feet.':'The second is larger by '+(w2*l2-area)+' square feet.')}`};},
+
+  ()=>{const w=pick([3,4,5]),l=pick([7,8,9]),area=w*l,cost=pick([2,3]);
+    return{q:`A wall is ${l} feet long and ${w} feet tall. Paint covers one square foot for $${cost}.`,steps:[
+      {kind:'array',instruct:'Draw the wall as a rectangle of square units.',need:{rows:w,cols:l,total:area},max:{r:6,c:10}},
+      {kind:'input',instruct:'How many square feet is the wall?',ans:area},
+      {kind:'input',instruct:'How many dollars will the paint cost?',ans:area*cost}
+    ],why:`Area = ${l} × ${w} = ${area} square feet. At $${cost} each, that is ${area} × ${cost} = $${area*cost}.`};}
+];
+
+/* ---------- MODULE 5 : fractions as numbers ---------- */
+const M5=[
+  ()=>{const d=pick([6,8]),eaten=R(2,4),left=d-eaten;
+    return{q:`A loaf of bread is cut into ${d} equal slices. ${eaten} slices are eaten.`,steps:[
+      {kind:'frac',instruct:'Shade the bar to show the slices that are LEFT.',need:{d:d,n:left}},
+      {kind:'choice',instruct:'What fraction of the loaf is left?',
+       ...mcText(frac(left,d),[frac(eaten,d),frac(d,left),frac(left,d+1)])},
+      {kind:'choice',instruct:'What fraction was eaten?',
+       ...mcText(frac(eaten,d),[frac(left,d),frac(d,eaten),frac(eaten,d+2)])}
+    ],why:`${d} equal slices, ${eaten} eaten, so ${left} are left. Left: ${left}/${d}. Eaten: ${eaten}/${d}. The two fractions add to ${d}/${d}, the whole loaf.`};},
+
+  ()=>{const d=pick([3,4,6,8]),n=R(2,d-1);
+    return{q:`A runner is ${n}/${d} of the way along a ${d}-part trail.`,steps:[
+      {kind:'frac',instruct:`Shade the bar to show how far the runner has gone.`,need:{d:d,n:n}},
+      {kind:'nline',instruct:'Now mark that same distance on the number line from 0 to 1.',
+       min:0,max:1,step:1/d,majors:[0,1],labMin:'0',labMax:'1',need:{v:n/d},fmt:v=>`${Math.round(v*d)}/${d}`},
+      {kind:'choice',instruct:'What fraction of the trail is still ahead?',
+       ...mcText(frac(d-n,d),[frac(n,d),frac(d,d-n),frac(d-n,d+1)])}
+    ],why:`${n}/${d} is ${n} jumps of 1/${d} from zero. The rest of the trail is ${d-n}/${d}, because ${n}/${d} + ${d-n}/${d} = ${d}/${d} = 1 whole trail.`};},
+
+  ()=>{let d1=pick([3,4,6,8]),d2=pick([3,4,6,8]);while(d2===d1)d2=pick([3,4,6,8]);
+    const small=Math.min(d1,d2),big=Math.max(d1,d2);
+    return{q:`Two identical candy bars. One is split among ${small} children, the other among ${big} children. Each child gets one piece.`,steps:[
+      {kind:'frac',instruct:`Shade one child's share from the bar split ${small} ways.`,need:{d:small,n:1}},
+      {kind:'frac',instruct:`Now shade one child's share from the bar split ${big} ways.`,need:{d:big,n:1}},
+      {kind:'choice',instruct:'Which group of children gets more candy each?',
+       ...mcText(`The group of ${small}`,[`The group of ${big}`,'Both get the same','It depends on the bar'])}
+    ],why:`Splitting the same bar into ${big} pieces makes smaller pieces than splitting it into ${small}. So 1/${small} > 1/${big}. With the same numerator, the bigger denominator means the smaller piece.`};},
+
+  ()=>{const d=pick([4,6,8]);let a=R(1,d-1),b=R(1,d-1);while(b===a)b=R(1,d-1);
+    const hi=Math.max(a,b),lo=Math.min(a,b);
+    return{q:`Two students each read part of the same book, measured in ${d}ths.`,steps:[
+      {kind:'frac',instruct:`Shade ${frac(a,d)}.`,need:{d:d,n:a}},
+      {kind:'frac',instruct:`Now shade ${frac(b,d)}.`,need:{d:d,n:b}},
+      {kind:'choice',instruct:'Which student read more of the book?',
+       ...mcText(`The one who read ${frac(hi,d)}`,[`The one who read ${frac(lo,d)}`,'They read the same amount'])},
+      {kind:'choice',instruct:'How much more?',
+       ...mcText(frac(hi-lo,d),[frac(hi+lo,d),frac(d-hi,d),frac(lo,d)])}
+    ],why:`The pieces are the same size, so just count them: ${hi}/${d} > ${lo}/${d}. The difference is ${hi-lo}/${d}.`};},
+
+  ()=>{const d=pick([2,3,4]),m=pick([2,3]),d2=d*m;
+    return{q:`The same amount of a bar can be named two different ways.`,steps:[
+      {kind:'frac',instruct:`Shade ${frac(1,d)}.`,need:{d:d,n:1}},
+      {kind:'frac',instruct:`Now split the whole bar into ${d2} equal parts and shade the SAME amount.`,need:{d:d2,n:m}},
+      {kind:'choice',instruct:'What did the two bars show?',
+       ...mcText(`${frac(1,d)} = ${frac(m,d2)}`,[`${frac(1,d)} > ${frac(m,d2)}`,`${frac(1,d)} < ${frac(m,d2)}`,`${frac(1,d)} = ${frac(1,d2)}`])}
+    ],why:`Cutting each of the ${d} parts into ${m} gives ${d2} parts, and the shaded piece becomes ${m} of them. Same amount, different name: 1/${d} = ${m}/${d2}.`};},
+
+  ()=>{const d=pick([3,4,6,8]),extra=R(1,d-1);
+    return{q:`Pies are cut into ${d} equal slices each. Someone serves ${d+extra} slices.`,steps:[
+      {kind:'frac',instruct:`First shade one whole pie: all ${d} slices.`,need:{d:d,n:d}},
+      {kind:'input',instruct:`How many whole pies were completely used up?`,ans:1},
+      {kind:'choice',instruct:`So ${d+extra} slices is how much pie?`,
+       ...mcText(`1 whole and ${frac(extra,d)}`,[`${frac(d+extra,d+extra)}`,`${extra} wholes`,`${frac(extra,d)} only`])}
+    ],why:`${d}/${d} = 1 whole pie. ${d+extra} slices is that whole pie plus ${extra} more slices, so 1 and ${extra}/${d}.`};}
+];
+
+/* ---------- MODULE 6 : geometry, measurement, data ---------- */
+const M6=[
+  ()=>{const w=pick([4,5,6]),l=pick([7,8,9]),area=w*l;
+    return{q:`A dog pen covers ${area} square meters. One side measures ${w} meters. Fencing runs around the outside.`,steps:[
+      {kind:'array',instruct:'Draw the pen as a rectangle of square units.',need:{rows:w,cols:l,total:area},max:{r:7,c:10}},
+      {kind:'input',instruct:'How long is the other side, in meters?',ans:l},
+      {kind:'input',instruct:'How many meters of fencing are needed?',ans:2*(w+l)}
+    ],why:`${w} × ___ = ${area}, so the other side is ${l} m. Fencing is perimeter: ${l} + ${w} + ${l} + ${w} = ${2*(w+l)} m.`};},
+
+  ()=>{const sh=R(1,9),sm=pick([20,25,35,40,45,50]),add=pick([35,40,50,55]);
+    let tm=sm+add,th=sh+Math.floor(tm/60);tm=tm%60;
     const f=(h,m)=>`${h>12?h-12:h}:${String(m).padStart(2,'0')}`;
-    return {q:`Practice starts at ${f(sh,sm)} and lasts ${add} minutes. When does it end?`, sub:`Add the minutes on.`, fig:clockFig(sh,sm),
-      ...(()=>{ const c=f(th,tm); const w=[f(th,(tm+10)%60), f(sh,(sm+add+30)%60), f(th+1,tm)];
-        const arr=shuffle(uniq([c,...w])).slice(0,4); return {choices:arr, answer:arr.indexOf(c)}; })(),
-      why:`${f(sh,sm)} plus ${add} minutes lands on ${f(th,tm)}.`}; },
-  ()=>{ const a=R(3,12), b=R(4,14);
-    return {q:`What is the perimeter of this rectangle?`, sub:`Perimeter is the distance all the way around.`, fig:perimFig({type:'rect',a:a,b:b,u:'cm'}),
-      ...mc(2*(a+b),[a*b, a+b, 2*a+b, a*b+a]), unit:'cm',
-      why:`Add every side: ${a} + ${b} + ${a} + ${b} = ${2*(a+b)} cm. (Area would be ${a*b} square cm.)`}; },
-  ()=>{ const a=R(4,15), b=R(4,15), c=R(5,16);
-    return {q:`What is the perimeter of this triangle?`, sub:`Add the three side lengths.`, fig:perimFig({type:'tri',a:a,b:b,c:c,u:'in'}),
-      ...mc(a+b+c,[a+b, a*b, a+b+c+2, a+b+c-3]), unit:'inches',
-      why:`${a} + ${b} + ${c} = ${a+b+c} inches all the way around.`}; },
-  ()=>{ const info={
-      square:['Square','4 equal sides and 4 right angles. A square is a special rectangle *and* a special rhombus.'],
-      rect:['Rectangle','4 sides and 4 right angles, with opposite sides equal.'],
-      rhombus:['Rhombus','4 equal sides, but the corners are not right angles.'],
-      trapezoid:['Trapezoid','4 sides with exactly one pair of parallel sides.'],
-      parallelogram:['Parallelogram','4 sides, with both pairs of opposite sides parallel and equal.'],
-      triangle:['Triangle','3 sides and 3 corners.'],
-      pentagon:['Pentagon','5 sides and 5 corners — penta means five.'],
-      hexagon:['Hexagon','6 sides and 6 corners — hexa means six.']
-    };
-    const k=pick(Object.keys(info));
-    const pool=shuffle(Object.keys(info).filter(x=>x!==k)).slice(0,3);
-    const arr=shuffle([k,...pool]);
-    return {q:`What is this shape called?`, sub:`Count the sides and look at the corners.`, fig:shapeFig(k),
-      choices:arr.map(x=>info[x][0]), answer:arr.indexOf(k),
-      why:`This is a ${info[k][0].toLowerCase()}: ${info[k][1].replace(/\*/g,'')}`};
-  },
-  ()=>{ const set=pick([
-      {q:`Which statement is always true about a square?`, a:'It has 4 equal sides and 4 right angles.',
-       w:['It has exactly 3 sides.','Its opposite sides are different lengths.','It has no right angles.'],
-       why:`Every square has four equal sides and four right angles — that is what makes it a square.`},
-      {q:`Which statement is always true about a rectangle?`, a:'It has 4 right angles.',
-       w:['All 4 sides are equal.','It has exactly 5 corners.','It has one pair of parallel sides only.'],
-       why:`Every rectangle has four right angles. Its sides only have to match in opposite pairs, not all four.`},
-      {q:`What makes a shape a quadrilateral?`, a:'It has exactly 4 sides.',
-       w:['It has 4 equal sides.','It has 4 right angles.','It has exactly 4 curves.'],
-       why:`Quadrilateral just means four straight sides. Squares, rectangles, rhombuses, and trapezoids are all quadrilaterals.`}
-    ]);
-    const arr=shuffle([set.a,...set.w]);
-    return {q:set.q, sub:`Attributes of two-dimensional figures.`, fig:null,
-      choices:arr, answer:arr.indexOf(set.a), why:set.why};
-  },
-  ()=>{ const cats=shuffle(['Mon','Tue','Wed','Thu','Fri']).slice(0,4);
-    const scale=pick([2,5]); const vals=cats.map(()=>R(1,8)*scale);
-    const i=R(0,cats.length-1), j=(i+1)%cats.length;
-    const ask=pick(['diff','total','most']);
-    if(ask==='diff'){ const d=Math.abs(vals[i]-vals[j]);
-      return {q:`How many more books were read on ${cats[vals[i]>vals[j]?i:j]} than on ${cats[vals[i]>vals[j]?j:i]}?`, sub:`Each gridline is ${scale}.`, fig:barGraph(cats,vals,'books',scale),
-        ...mc(d,[d+scale,d-scale,vals[i]+vals[j],Math.max(...vals)]), why:`${Math.max(vals[i],vals[j])} − ${Math.min(vals[i],vals[j])} = ${d} books.`}; }
-    if(ask==='total'){ const t=vals.reduce((a,b)=>a+b,0);
-      return {q:`How many books were read in all?`, sub:`Each gridline is ${scale}.`, fig:barGraph(cats,vals,'books',scale),
-        ...mc(t,[t-scale,t+scale,Math.max(...vals),t-vals[0]]), why:`${vals.join(' + ')} = ${t} books.`}; }
-    const mx=Math.max(...vals), day=cats[vals.indexOf(mx)];
-    const arr=shuffle([...cats]);
-    return {q:`Which day had the most books read?`, sub:`Each gridline is ${scale}.`, fig:barGraph(cats,vals,'books',scale),
-      choices:arr, answer:arr.indexOf(day), why:`${day} has the tallest bar at ${mx} books.`};
-  },
-  ()=>{ const a=R(4,9), b=R(3,8);
-    const askArea=Math.random()<0.5;
-    const ans = askArea? a*b : 2*(a+b);
-    return {q:`A rug is ${a} feet by ${b} feet. What is its ${askArea?'area':'perimeter'}?`, sub:askArea?`Area covers the inside.`:`Perimeter goes around the edge.`, fig:perimFig({type:'rect',a:a,b:b,u:'ft'}),
-      ...mc(ans,[askArea?2*(a+b):a*b, a+b, ans+a, ans-b]), unit: askArea?'square feet':'feet',
-      why: askArea? `Area = ${a} × ${b} = ${a*b} square feet — it covers the inside.` : `Perimeter = ${a} + ${b} + ${a} + ${b} = ${2*(a+b)} feet — it goes around the edge.`}; }
+    return{q:`A movie starts at ${f(sh,sm)} and runs for ${add} minutes.`,steps:[
+      {kind:'input',instruct:`How many minutes from ${f(sh,sm)} until ${f(sh+1,0)}?`,ans:60-sm},
+      {kind:'input',instruct:`How many minutes are left over after reaching ${f(sh+1,0)}?`,ans:add-(60-sm)},
+      {kind:'choice',instruct:'What time does the movie end?',
+       ...mcText(f(th,tm),[f(th,(tm+15)%60),f(th+1,tm),f(sh,(sm+add)%60)])}
+    ],why:`From ${f(sh,sm)} it is ${60-sm} minutes to ${f(sh+1,0)}. That leaves ${add-(60-sm)} more minutes, ending at ${f(th,tm)}.`};},
+
+  ()=>{const h=R(1,12),m=pick([5,10,20,25,35,40,50,55]);
+    const t=`${h}:${String(m).padStart(2,'0')}`,face=clockFig(h,m);
+    return{q:`Read the clock, then work forward from it.`,steps:[
+      {kind:'choice',instruct:'What time does the clock show?',fig:face,
+       ...mcText(t,[`${h}:${String((m+5)%60).padStart(2,'0')}`,`${h===12?1:h+1}:${String(m).padStart(2,'0')}`,`${m}:${String(h).padStart(2,'0')}`])},
+      {kind:'choice',instruct:'What time will it be 30 minutes later?',fig:face,
+       ...(()=>{const nm=(m+30)%60,nh=m+30>=60?(h===12?1:h+1):h;const c=`${nh}:${String(nm).padStart(2,'0')}`;
+          return mcText(c,[`${h}:${String(nm).padStart(2,'0')}`,`${nh}:${String((nm+5)%60).padStart(2,'0')}`,`${h}:${String((m+3)%60).padStart(2,'0')}`]);})()}
+    ],why:`The short hand is past ${h} and the long hand is on ${m} minutes, so it reads ${t}. Thirty minutes later the minute hand moves halfway around${m+30>=60?', carrying the hour forward':''}.`};},
+
+  ()=>{const info={
+      square:['Square',4,'4 equal sides and 4 right angles'],
+      rectangle:['Rectangle',4,'4 right angles with opposite sides equal'],
+      rhombus:['Rhombus',4,'4 equal sides but no right angles'],
+      trapezoid:['Trapezoid',4,'exactly one pair of parallel sides'],
+      pentagon:['Pentagon',5,'5 sides and 5 corners'],
+      hexagon:['Hexagon',6,'6 sides and 6 corners']};
+    const k=pick(Object.keys(info)),o=info[k];
+    const others=shuffle(Object.keys(info).filter(x=>x!==k)).slice(0,3);
+    return{q:`A shape has ${o[2]}.`,steps:[
+      {kind:'input',instruct:'How many sides does it have?',ans:o[1]},
+      {kind:'choice',instruct:'What is the shape called?',...mcText(o[0],others.map(x=>info[x][0]))},
+      {kind:'choice',instruct:'Is this shape a quadrilateral?',
+       ...mcText(o[1]===4?'Yes — it has exactly 4 sides':'No — a quadrilateral must have exactly 4 sides',
+         o[1]===4?['No — quadrilaterals must have right angles','No — quadrilaterals must have equal sides','Only if all sides match']
+                 :['Yes — all closed shapes are quadrilaterals','Yes — it has straight sides','Only if it has right angles'])}
+    ],why:`A ${o[0].toLowerCase()} has ${o[1]} sides — ${o[2]}. Quadrilateral means exactly 4 sides, so a ${o[0].toLowerCase()} ${o[1]===4?'is':'is not'} one.`};},
+
+  ()=>{const cats=['Mon','Tue','Wed','Thu'],scale=pick([5,10]);
+    const vals=cats.map(()=>R(2,8)*scale),tot=vals.reduce((a,b)=>a+b,0);
+    const i=vals.indexOf(Math.max(...vals)),j=vals.indexOf(Math.min(...vals));
+    const g=barGraphFig(cats,vals,scale,'minutes');
+    return{q:`Minutes of reading logged over four days. Each gridline is ${scale} minutes.`,steps:[
+      {kind:'input',instruct:`How many minutes were read on ${cats[i]}?`,fig:g,ans:vals[i]},
+      {kind:'input',instruct:`How many more minutes on ${cats[i]} than on ${cats[j]}?`,fig:g,ans:vals[i]-vals[j]},
+      {kind:'input',instruct:'How many minutes across all four days?',fig:g,ans:tot},
+      {kind:'input',instruct:'How many minutes short of a 300 minute goal?',fig:g,ans:Math.max(0,300-tot)}
+    ],why:`${cats[i]} was tallest at ${vals[i]}, which is ${vals[i]-vals[j]} more than ${cats[j]}'s ${vals[j]}. All four days: ${vals.join(' + ')} = ${tot}, leaving ${Math.max(0,300-tot)} minutes to reach 300.`};},
+
+  ()=>{const a=R(6,14),b=R(6,14),per=pick([40,44,48,52]);
+    const known=a+b, third=per-known;
+    return{q:`A triangular flower bed has a perimeter of ${per} feet. Two of its sides measure ${a} feet and ${b} feet.`,steps:[
+      {kind:'input',instruct:`Add the two known sides: ${a} + ${b} = ?`,ans:known},
+      {kind:'input',instruct:'How long is the third side, in feet?',ans:third}
+    ],why:`Perimeter is every side added: ${a} + ${b} = ${known}, and ${per} − ${known} = ${third} feet for the third side.`};}
 ];
 
 /* ============================================================
    STATIONS
    ============================================================ */
-const STATIONS = [
-  {id:'m1', n:1, name:'Equal Groups Camp', short:'Equal Groups', topic:'Multiplication and division with units of 2, 3, 4, 5, and 10', color:'#1F5C46', dark:'#57C598', bank:M1},
-  {id:'m2', n:2, name:'Metric Ridge',      short:'Metric Ridge', topic:'Place value to 10,000, rounding, and metric measurement',      color:'#2E6E8E', dark:'#78BEDD', bank:M2},
-  {id:'m3', n:3, name:'Hard Facts Hollow', short:'Hard Facts',   topic:'Units of 0, 1, 6, 7, 8, 9 and multiples of ten',               color:'#8A5A12', dark:'#E8B23F', bank:M3},
-  {id:'m4', n:4, name:'Square Unit Flats', short:'Square Units', topic:'Multiplication and area',                                      color:'#5B7A1E', dark:'#A9CB63', bank:M4},
-  {id:'m5', n:5, name:'Fraction Falls',    short:'Fractions',    topic:'Fractions as numbers on the number line',                      color:'#7A2E63', dark:'#DE93C6', bank:M5},
-  {id:'m6', n:6, name:'Surveyor’s Point',  short:'Surveying',    topic:'Time, shapes, perimeter, and data',                            color:'#A8324A', dark:'#F0879C', bank:M6}
+const STATIONS=[
+  {id:'m1',n:1,name:'Equal Groups Camp',short:'Equal Groups',topic:'Word problems where you draw the array first — equal groups, both kinds of division, and a second step after',color:'#1F5C46',dark:'#57C598',bank:M1},
+  {id:'m2',n:2,name:'Metric Ridge',short:'Metric Ridge',topic:'Regrouping place value disks, rounding two ways, and multi-step metric measurement',color:'#2E6E8E',dark:'#78BEDD',bank:M2},
+  {id:'m3',n:3,name:'Hard Facts Hollow',short:'Hard Facts',topic:'Facts through 12 by breaking them apart, plus two-step problems you draw first',color:'#8A5A12',dark:'#E8B23F',bank:M3},
+  {id:'m4',n:4,name:'Square Unit Flats',short:'Square Units',topic:'Missing sides from area, composite gardens, and area against perimeter in the same problem',color:'#5B7A1E',dark:'#A9CB63',bank:M4},
+  {id:'m5',n:5,name:'Fraction Falls',short:'Fractions',topic:'Shade what a story asks for, move it to the number line, compare and find the difference',color:'#7A2E63',dark:'#DE93C6',bank:M5},
+  {id:'m6',n:6,name:'Surveyor’s Point',short:'Surveying',topic:'Perimeter with a missing side, elapsed time across the hour, and four-step graph reading',color:'#A8324A',dark:'#F0879C',bank:M6}
 ];
-const QPER = 8;
+const QPER=6;
 
-/* ============ STATE ============ */
-let progress = {};
-try{ progress = JSON.parse(localStorage.getItem('unitranger.v1')||'{}'); }catch(e){ progress = {}; }
-function save(){ try{ localStorage.setItem('unitranger.v1', JSON.stringify(progress)); }catch(e){} }
-const starsFor = s => s>=8?3 : s>=6?2 : s>=4?1 : 0;
-const view = document.getElementById('view');
-
-function totalStars(){ return STATIONS.reduce((t,s)=>t+(progress[s.id]?.stars||0),0); }
-function paintTally(){ document.getElementById('totstars').textContent = totalStars(); }
-
-function starStr(n){ return `<span class="stars">${'★'.repeat(n)}<span class="off">${'★'.repeat(3-n)}</span></span>`; }
+/* ============================================================
+   STATE
+   ============================================================ */
+let progress={};
+try{progress=JSON.parse(localStorage.getItem('unitranger.v3')||'{}');}catch(e){progress={};}
+function save(){try{localStorage.setItem('unitranger.v3',JSON.stringify(progress));}catch(e){}}
+const starsFor=s=>s>=6?3:s>=4?2:s>=2?1:0;
+const view=document.getElementById('view');
+const totalStars=()=>STATIONS.reduce((t,s)=>t+(progress[s.id]?.stars||0),0);
+const paintTally=()=>{document.getElementById('totstars').textContent=totalStars();};
+const starStr=n=>`<span class="stars">${'★'.repeat(n)}<span class="off">${'★'.repeat(3-n)}</span></span>`;
 function isDark(){
-  const t = document.documentElement.getAttribute('data-theme');
-  if(t==='dark') return true;
-  if(t==='light') return false;
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const t=document.documentElement.getAttribute('data-theme');
+  if(t==='dark')return true; if(t==='light')return false;
+  return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
-function modColor(st){ return `--mod:${isDark()?st.dark:st.color}`; }
+const modColor=st=>`--mod:${isDark()?st.dark:st.color}`;
 
-/* ============ MAP VIEW ============ */
-const NODES = [[70,210],[240,90],[410,220],[580,80],[750,200],[920,85]];
+/* ============================================================
+   MAP
+   ============================================================ */
+const NODES=[[70,210],[240,90],[410,220],[580,80],[750,200],[920,85]];
 function renderMap(){
-  const done = STATIONS.filter(s=>progress[s.id]?.stars>0).length;
-  const nodes = STATIONS.map((st,i)=>{
-    const p = progress[st.id];
-    const [x,y]=NODES[i];
-    const pips = p?.stars ? `<span class="pips">${'<span class="pip"></span>'.repeat(p.stars)}</span>` : '';
-    return `<button class="node ${p?.stars?'done':''}" data-go="${st.id}" style="left:${x/1000*100}%;top:${y/300*100}%"
-      aria-label="Station ${st.n}, ${st.name}">${st.n}${pips}</button>
-      <span class="maplabel" style="left:${x/1000*100}%;top:calc(${y/300*100}% + ${y<140?42:-50}px)">${st.short}</span>`;
+  const done=STATIONS.filter(s=>progress[s.id]?.stars>0).length;
+  const nodes=STATIONS.map((st,i)=>{
+    const p=progress[st.id],[x,y]=NODES[i];
+    const pips=p?.stars?`<span class="pips">${'<span class="pip"></span>'.repeat(p.stars)}</span>`:'';
+    return `<button class="node ${p?.stars?'done':''}" data-go="${st.id}" style="left:${x/10}%;top:${y/3}%" aria-label="Station ${st.n}, ${st.name}">${st.n}${pips}</button>
+      <span class="maplabel" style="left:${x/10}%;top:calc(${y/3}% + ${y<140?42:-50}px)">${st.short}</span>`;
   }).join('');
-
-  view.innerHTML = `
-  <section>
+  view.innerHTML=`<section>
     <div class="eyebrow" style="margin-bottom:8px">The trail &middot; ${done} of 6 stations stamped</div>
-    <div class="mapwrap">
-      <div class="mapinner">
-        <svg class="trail" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M70 210 C 130 150, 180 90, 240 90 S 350 230, 410 220 S 520 80, 580 80 S 690 210, 750 200 S 860 85, 920 85"
-                fill="none" stroke="var(--line)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 10"/>
-          <path d="M70 210 C 130 150, 180 90, 240 90 S 350 230, 410 220 S 520 80, 580 80 S 690 210, 750 200 S 860 85, 920 85"
-                fill="none" stroke="var(--pine)" stroke-width="5" stroke-linecap="round"
-                pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1 - done/6}"/>
-        </svg>
-        ${nodes}
-      </div>
-    </div>
-    <div class="grid">
-      ${STATIONS.map(st=>{
-        const p=progress[st.id];
-        return `<button class="station" data-go="${st.id}" style="${modColor(st)}">
-          <span class="num">MODULE ${st.n}</span>
-          <h3>${st.name}</h3>
-          <p>${st.topic}</p>
-          <span class="foot">${starStr(p?.stars||0)}<span class="best">${p? 'best '+p.best+'/'+QPER : 'not started'}</span></span>
-        </button>`;
-      }).join('')}
-    </div>
+    <div class="mapwrap"><div class="mapinner">
+      <svg class="trail" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M70 210 C 130 150, 180 90, 240 90 S 350 230, 410 220 S 520 80, 580 80 S 690 210, 750 200 S 860 85, 920 85" fill="none" stroke="var(--line)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 10"/>
+        <path d="M70 210 C 130 150, 180 90, 240 90 S 350 230, 410 220 S 520 80, 580 80 S 690 210, 750 200 S 860 85, 920 85" fill="none" stroke="var(--pine)" stroke-width="5" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-done/6}"/>
+      </svg>${nodes}
+    </div></div>
+    <div class="grid">${STATIONS.map(st=>{const p=progress[st.id];
+      return `<button class="station" data-go="${st.id}" style="${modColor(st)}">
+        <span class="num">MODULE ${st.n}</span><h3>${st.name}</h3><p>${st.topic}</p>
+        <span class="foot">${starStr(p?.stars||0)}<span class="best">${p?'best '+p.best+'/'+QPER:'not started'}</span></span>
+      </button>`;}).join('')}</div>
   </section>`;
   paintTally();
 }
 
-/* ============ QUIZ ============ */
-let Q = null;
+/* ============================================================
+   QUIZ ENGINE
+   ============================================================ */
+let Q=null;
+
 function startStation(id){
-  const st = STATIONS.find(s=>s.id===id);
-  const bank = shuffle(st.bank);
-  const qs = [];
-  for(let i=0;i<QPER;i++){
-    const gen = bank[i % bank.length];
-    let q, guard=0;
-    do{ q = gen(); guard++; } while(guard<8 && qs.some(o=>o.q===q.q && o.sub===q.sub));
-    qs.push(q);
-  }
-  Q = { st, qs, i:0, marks:[], streak:0, misses:[], locked:false, entry:'' };
-  renderQ();
+  const st=STATIONS.find(s=>s.id===id);
+  const bank=shuffle(st.bank),qs=[];
+  for(let i=0;i<QPER;i++) qs.push(bank[i%bank.length]());
+  Q={st,qs,qi:0,si:0,marks:[],clean:true,streak:0,misses:[],done:[],locked:false,entry:'',sR:0,sT:0};
+  renderStep();
 }
 
-function renderQ(){
-  const {st,qs,i} = Q, q = qs[i];
-  const ticks = Array.from({length:QPER},(_,k)=>{
-    const cls = k<Q.marks.length ? (Q.marks[k]?'hit':'miss') : (k===i?'now':'');
-    return `<span class="tick ${cls}"></span>`;
-  }).join('');
+function renderStep(){
+  const {st,qs,qi,si}=Q, q=qs[qi], step=q.steps[si];
+  B = isBuild(step.kind) ? Object.assign({step},BUILDERS[step.kind].init(step)) : {step};
 
-  let answerHTML;
-  if(q.type==='input'){
-    answerHTML = `<div class="entry">
-      <div class="readout" id="readout">&nbsp;</div>
-      <div class="pad">
-        ${[1,2,3,4,5,6,7,8,9].map(n=>`<button type="button" data-k="${n}">${n}</button>`).join('')}
-        <button type="button" data-k="del">&#9003;</button>
+  const ticks=Array.from({length:QPER},(_,k)=>{
+    const cls=k<Q.marks.length?(Q.marks[k]?'hit':'miss'):(k===qi?'now':'');
+    return `<span class="tick ${cls}"></span>`;}).join('');
+
+  const chips=q.steps.map((s,k)=>
+    `<span class="stepchip ${k<si?'ok':k===si?'on':''}">Step ${k+1}</span>`).join('');
+
+  const doneHTML=Q.done.map(d=>`<div class="done-step${d.ok===false?' bad':''}">
+      <span class="lbl">STEP ${d.n}</span>
+      <span><span class="val">${d.text}</span>${d.mini||''}${d.cap?`<div class="best" style="margin-top:4px">${d.cap}</div>`:''}</span>
+    </div>`).join('');
+
+  let body;
+  if(isBuild(step.kind)){
+    body=BUILDERS[step.kind].html(step)+
+      `<div class="rowend" style="justify-content:center"><button class="btn wide" id="checkbtn" type="button">Check</button></div>`;
+  } else if(step.kind==='input'){
+    body=`<div class="entry">
+      <div class="numout" id="numout">&nbsp;</div>
+      <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button type="button" data-k="${n}">${n}</button>`).join('')}
+        <button type="button" data-k="del" aria-label="Delete">&#9003;</button>
         <button type="button" data-k="0">0</button>
         <button type="button" class="go" data-k="ok">Check</button>
-      </div>
-    </div>`;
+      </div></div>`;
   } else {
-    answerHTML = `<div class="choices">${q.choices.map((c,k)=>
-      `<button class="choice" data-c="${k}" type="button"><span class="key">${k+1}</span><span>${c}${q.unit?` <span style="font-size:13px;color:var(--muted);font-weight:400">${q.unit}</span>`:''}</span></button>`
-    ).join('')}</div>`;
+    body=`<div class="choices">${step.choices.map((c,k)=>
+      `<button class="choice" data-c="${k}" type="button"><span class="key">${k+1}</span><span>${c}</span></button>`).join('')}</div>`;
   }
 
-  view.innerHTML = `
-  <div class="panel" style="${modColor(st)}">
+  view.innerHTML=`<div class="panel" style="${modColor(st)}">
     <div class="qhead">
-      <span class="mod">Module ${st.n} &middot; ${st.name}</span>
-      <span class="spacer"></span>
-      ${Q.streak>=2?`<span class="streak">${Q.streak} in a row 🔥</span>`:''}
+      <span class="mod">Module ${st.n} &middot; ${st.name}</span><span class="spacer"></span>
+      ${Q.streak>=2?`<span class="streak">${Q.streak} clean in a row</span>`:''}
       <button class="ghost" data-back="1" type="button">Back to trail</button>
     </div>
     <div class="track">${ticks}</div>
-    <div class="qtext">${q.q}</div>
-    <div class="qsub">${q.sub||''}</div>
-    ${q.fig?`<div class="figure">${q.fig}</div>`:''}
-    ${answerHTML}
+    <div class="context">${q.q}</div>
+    <div class="stepbar">${chips}</div>
+    ${doneHTML}
+    <div class="instruct">${step.instruct}</div>
+    <div class="hintline">${step.hint||''}</div>
+    ${step.fig?`<div class="figure">${step.fig}</div>`:''}
+    ${body}
     <div id="fb"></div>
   </div>`;
+
   Q.locked=false; Q.entry='';
+  if(isBuild(step.kind)){
+    BUILDERS[step.kind].paint();
+    BUILDERS[step.kind].wire();
+    document.getElementById('checkbtn').addEventListener('click',checkBuild);
+  }
 }
 
-function judge(ok, chosenIdx){
-  if(Q.locked) return; Q.locked=true;
-  const q = Q.qs[Q.i];
-  Q.marks.push(ok);
-  if(ok){ Q.streak++; } else { Q.streak=0; Q.misses.push(q); }
-
-  if(q.type==='input'){
-    const ro=document.getElementById('readout');
-    ro.classList.add(ok?'right':'wrong');
-    if(!ok) ro.innerHTML = `${Q.entry} &rarr; ${q.ans}`;
-  } else {
-    document.querySelectorAll('.choice').forEach((b,k)=>{
-      b.disabled=true;
-      if(k===q.answer) b.classList.add('right');
-      else if(k===chosenIdx) b.classList.add('wrong');
-    });
-  }
-
-  const cheer = pick(['Nice work.','Exactly right.','You got it.','Sharp thinking.','That’s it.']);
-  document.getElementById('fb').innerHTML = `
-    <div class="feedback ${ok?'':'no'}">
-      <strong>${ok?cheer:'Not quite — here’s the thinking.'}</strong>
-      ${q.why}
-    </div>
-    <div class="rowend"><button class="btn" id="next" type="button">${Q.i+1<QPER?'Next question':'See your badge'}</button>
-    <span class="best">${Q.i+1} of ${QPER}</span></div>`;
+function checkBuild(){
+  if(Q.locked)return; Q.locked=true;
+  const step=B.step, kit=BUILDERS[step.kind], ok=kit.ok(step), sol=solutionOf(step);
+  Q.sT++; if(ok)Q.sR++; else Q.clean=false;
+  Q.done.push({n:Q.si+1, ok, text: ok?kit.recap(step):`You drew ${kit.recap(step)} \u2014 correct was ${sol.text}`, mini: ok?kit.mini(step):sol.mini, cap: ok?'':'the correct drawing'});
+  document.querySelectorAll('#abgrid .cell, .fbar .fseg, [data-adj], [data-tp], [data-dk], [data-fp]').forEach(el=>{
+    if(el.tagName==='BUTTON') el.disabled=true;
+  });
+  const grid=document.getElementById('abgrid'); if(grid) grid.classList.add('ro');
+  const cb=document.getElementById('checkbtn'); if(cb) cb.remove();
+  const last=Q.si+1>=Q.qs[Q.qi].steps.length;
+  document.getElementById('fb').innerHTML=`
+    <div class="feedback ${ok?'':'no'}"><strong>${ok?'Correct.':'Not correct.'}</strong>
+      ${ok?'':`The drawing needed to be <b>${sol.text}</b>.`}${sol.mini&&!ok?`<div style="margin-top:8px">${sol.mini}</div>`:''}
+      ${last?'<div style="margin-top:8px">'+Q.qs[Q.qi].why+'</div>':''}</div>
+    <div class="rowend"><button class="btn" id="next" type="button">${last?(Q.qi+1<QPER?'Next problem':'See your score'):'Next step'}</button></div>`;
   document.getElementById('next').focus();
 }
 
-function next(){
-  Q.i++;
-  if(Q.i>=QPER) return finish();
-  renderQ();
+function judgeAnswer(ok,chosen){
+  if(Q.locked)return; Q.locked=true;
+  const step=B.step;
+  Q.sT++; if(ok)Q.sR++; else Q.clean=false;
+  if(step.kind==='input'){
+    const el=document.getElementById('numout');
+    el.classList.add(ok?'right':'wrong');
+    if(!ok) el.innerHTML=`${Q.entry} &rarr; ${step.ans}`;
+    Q.done.push({n:Q.si+1,ok,text:ok?`Answered ${step.ans}`:`You answered ${Q.entry} — the answer was ${step.ans}`});
+  } else {
+    document.querySelectorAll('.choice').forEach((b,k)=>{
+      b.disabled=true;
+      if(k===step.answer)b.classList.add('right');
+      else if(k===chosen)b.classList.add('wrong');
+    });
+    Q.done.push({n:Q.si+1,ok,text:ok?step.choices[step.answer]:`You chose ${step.choices[chosen]} — the answer was ${step.choices[step.answer]}`});
+  }
+  const last=Q.si+1>=Q.qs[Q.qi].steps.length;
+    document.getElementById('fb').innerHTML=`
+    <div class="feedback ${ok?'':'no'}"><strong>${ok?'Correct.':'Not correct.'}</strong>
+      ${ok?'':`The answer was <b>${step.kind==='input'?step.ans:step.choices[step.answer]}</b>.`}
+      ${last?'<div style="margin-top:8px">'+Q.qs[Q.qi].why+'</div>':''}</div>
+    <div class="rowend"><button class="btn" id="next" type="button">${last?(Q.qi+1<QPER?'Next problem':'See your score'):'Next step'}</button></div>`;
+  document.getElementById('next').focus();
 }
 
-function finish(){
-  const score = Q.marks.filter(Boolean).length;
-  const stars = starsFor(score);
-  const st = Q.st;
-  const prev = progress[st.id]||{best:0,stars:0,plays:0};
-  progress[st.id] = { best: Math.max(prev.best,score), stars: Math.max(prev.stars,stars), plays:(prev.plays||0)+1 };
+function finishQuestion(){
+  Q.marks.push(Q.clean);
+  if(Q.clean)Q.streak++; else {Q.streak=0; Q.misses.push(Q.qs[Q.qi]);}
+  Q.qi++; Q.si=0; Q.clean=true; Q.done=[];
+  if(Q.qi>=QPER) return finishStation();
+  renderStep();
+}
+
+function nextFromButton(){
+  const last=Q.si+1>=Q.qs[Q.qi].steps.length;
+  if(last) return finishQuestion();
+  Q.si++; renderStep();
+}
+
+function finishStation(){
+  const score=Q.marks.filter(Boolean).length, stars=starsFor(score), st=Q.st;
+  const prev=progress[st.id]||{best:0,stars:0,plays:0};
+  progress[st.id]={best:Math.max(prev.best,score),stars:Math.max(prev.stars,stars),plays:(prev.plays||0)+1};
   save();
-
-  const line = stars===3?'Perfect run. Badge stamped.' : stars===2?'Strong run — one more pass for the gold.' : stars===1?'Good start. Run it again to build the facts.' : 'Tough station. Try it once more — the notes below help.';
-
-  view.innerHTML = `
-  <div class="panel" style="${modColor(st)};text-align:center">
+  const pct=Q.sT?Math.round(Q.sR/Q.sT*100):0;
+  const line=stars===3?'Every problem fully correct. Badge stamped.'
+    :stars===2?'Solid — most problems fully correct.'
+    :stars===1?'Some problems came apart partway through. The trail notes show where.'
+    :'A hard run. Work through the trail notes before trying again.';
+  view.innerHTML=`<div class="panel" style="${modColor(st)};text-align:center">
     <div class="eyebrow">Station ${st.n} complete</div>
-    <div class="stamp">
-      <svg viewBox="0 0 150 150" width="150" aria-hidden="true">
-        <circle cx="75" cy="75" r="66" fill="none" stroke="${'var(--mod)'}" stroke-width="4"/>
-        <circle cx="75" cy="75" r="57" fill="none" stroke="var(--mod)" stroke-width="1.5" stroke-dasharray="4 5"/>
-        <text x="75" y="66" text-anchor="middle" fill="var(--mod)" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="40">${score}/${QPER}</text>
-        <text x="75" y="92" text-anchor="middle" fill="var(--mod)" font-family="IBM Plex Mono,monospace" font-size="12" letter-spacing="2">MODULE ${st.n}</text>
-      </svg>
-    </div>
+    <div class="stamp"><svg viewBox="0 0 150 150" width="150" aria-hidden="true">
+      <circle cx="75" cy="75" r="66" fill="none" stroke="var(--mod)" stroke-width="4"/>
+      <circle cx="75" cy="75" r="57" fill="none" stroke="var(--mod)" stroke-width="1.5" stroke-dasharray="4 5"/>
+      <text x="75" y="66" text-anchor="middle" fill="var(--mod)" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="40">${score}/${QPER}</text>
+      <text x="75" y="92" text-anchor="middle" fill="var(--mod)" font-family="IBM Plex Mono,monospace" font-size="12" letter-spacing="2">MODULE ${st.n}</text>
+    </svg></div>
     <div class="bigstars">${'★'.repeat(stars)}<span class="off">${'★'.repeat(3-stars)}</span></div>
     <h2 style="font-size:26px;margin:10px 0 4px">${st.name}</h2>
-    <p style="color:var(--muted);margin:0 0 4px">${line}</p>
+    <p style="color:var(--muted);margin:0 0 2px">${line}</p>
+    <p class="best" style="margin:0 0 4px">${Q.sR} of ${Q.sT} individual steps correct (${pct}%)</p>
     <div class="rowend" style="justify-content:center">
       <button class="btn" data-retry="${st.id}" type="button">Run it again</button>
       <button class="ghost" data-back="1" type="button">Back to trail</button>
     </div>
-    ${Q.misses.length? `<div class="notes" style="text-align:left">
-      <div class="eyebrow" style="margin-bottom:8px">Trail notes &middot; worth another look</div>
+    ${Q.misses.length?`<div class="notes" style="text-align:left">
+      <div class="eyebrow" style="margin-bottom:8px">Trail notes &middot; problems with a wrong step</div>
       ${Q.misses.map(m=>`<div class="note"><span class="mk">!</span><span class="body"><b>${m.q}</b><br>${m.why}</span></div>`).join('')}
-    </div>` : `<div class="notes"><div class="eyebrow">Trail notes</div><p style="color:var(--muted);margin:8px 0 0">Nothing missed at this station.</p></div>`}
+    </div>`:`<div class="notes"><div class="eyebrow">Trail notes</div><p style="color:var(--muted);margin:8px 0 0">Every step correct. Nothing to review.</p></div>`}
   </div>`;
   paintTally();
 }
 
-/* ============ EVENTS ============ */
-document.addEventListener('click', e=>{
-  const go = e.target.closest('[data-go]');
-  if(go) return startStation(go.dataset.go);
-  if(e.target.closest('[data-back]')) return renderMap();
-  const retry = e.target.closest('[data-retry]');
-  if(retry) return startStation(retry.dataset.retry);
-  const ch = e.target.closest('.choice');
-  if(ch && !ch.disabled){ const k=+ch.dataset.c; return judge(k===Q.qs[Q.i].answer, k); }
-  if(e.target.id==='next') return next();
-  const pad = e.target.closest('.pad button');
-  if(pad) return padPress(pad.dataset.k);
+/* ============================================================
+   EVENTS
+   ============================================================ */
+document.addEventListener('click',e=>{
+  const go=e.target.closest('[data-go]'); if(go)return startStation(go.dataset.go);
+  if(e.target.closest('[data-back]'))return renderMap();
+  const rt=e.target.closest('[data-retry]'); if(rt)return startStation(rt.dataset.retry);
+  if(e.target.id==='next')return nextFromButton();
+  const ch=e.target.closest('.choice');
+  if(ch&&!ch.disabled)return judgeAnswer(+ch.dataset.c===B.step.answer,+ch.dataset.c);
+  const pk=e.target.closest('.pad button'); if(pk)return padPress(pk.dataset.k);
 });
 
 function padPress(k){
-  if(!Q || Q.locked) return;
-  const ro=document.getElementById('readout'); if(!ro) return;
-  if(k==='del'){ Q.entry=Q.entry.slice(0,-1); }
-  else if(k==='ok'){ if(Q.entry==='') return; return judge(+Q.entry===Q.qs[Q.i].ans, null); }
-  else if(Q.entry.length<5){ Q.entry+=k; }
-  ro.textContent = Q.entry===''? ' ' : Q.entry;
+  if(!Q||Q.locked)return;
+  const el=document.getElementById('numout'); if(!el)return;
+  if(k==='del')Q.entry=Q.entry.slice(0,-1);
+  else if(k==='ok'){ if(Q.entry==='')return; return judgeAnswer(+Q.entry===B.step.ans,null); }
+  else if(Q.entry.length<6)Q.entry+=k;
+  el.textContent=Q.entry===''?' ':Q.entry;
 }
 
-document.addEventListener('keydown', e=>{
-  if(!Q) return;
-  if(e.key==='Enter'){ const n=document.getElementById('next'); if(n){ e.preventDefault(); return next(); } if(Q.qs[Q.i].type==='input') { e.preventDefault(); return padPress('ok'); } }
-  if(Q.locked) return;
-  const q=Q.qs[Q.i];
-  if(q.type==='input'){
-    if(/^[0-9]$/.test(e.key)) padPress(e.key);
-    else if(e.key==='Backspace') padPress('del');
-  } else if(/^[1-4]$/.test(e.key)){
-    const k=+e.key-1; if(k<q.choices.length) judge(k===q.answer,k);
+document.addEventListener('keydown',e=>{
+  if(!Q||!B)return;
+  const n=document.getElementById('next');
+  if(e.key==='Enter'){
+    if(n){e.preventDefault();return nextFromButton();}
+    if(B.step.kind==='input'){e.preventDefault();return padPress('ok');}
+    if(isBuild(B.step.kind)){e.preventDefault();return checkBuild();}
+  }
+  if(Q.locked)return;
+  const step=B.step;
+  if(step.kind==='input'){
+    if(/^[0-9]$/.test(e.key))padPress(e.key);
+    else if(e.key==='Backspace')padPress('del');
+  } else if(step.kind==='choice'&&/^[1-4]$/.test(e.key)){
+    const k=+e.key-1; if(k<step.choices.length)judgeAnswer(k===step.answer,k);
+  } else if(step.kind==='array'){
+    const m={ArrowRight:[0,1],ArrowLeft:[0,-1],ArrowDown:[1,0],ArrowUp:[-1,0]}[e.key];
+    if(m){e.preventDefault();arraySet(B.rows+m[0],B.cols+m[1]);}
   }
 });
 
-document.getElementById('resetbtn').addEventListener('click', ()=>{
-  progress={}; save(); Q=null; renderMap();
-});
+document.getElementById('resetbtn').addEventListener('click',()=>{progress={};save();Q=null;B=null;renderMap();});
 
-/* re-render when the viewer's theme flips, so module accents stay legible */
 if(window.matchMedia){
-  const mq = window.matchMedia('(prefers-color-scheme: dark)');
-  const onFlip = ()=>{ if(!Q) renderMap(); };
-  mq.addEventListener ? mq.addEventListener('change', onFlip) : mq.addListener(onFlip);
+  const mq=window.matchMedia('(prefers-color-scheme: dark)');
+  const flip=()=>{if(!Q)renderMap();};
+  mq.addEventListener?mq.addEventListener('change',flip):mq.addListener(flip);
 }
-new MutationObserver(()=>{ if(!Q) renderMap(); })
-  .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+new MutationObserver(()=>{if(!Q)renderMap();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
 renderMap();
 </script>
